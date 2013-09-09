@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">weight</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_splash">내 몸무게는?</string>
+    <string name="spinner_initialset">몸무게를 선택해 주세요</string>
+    <string name="spinner_txt_initialset">귀하의 키를 입력해 주세요</string>
+    <string name="checkbox_man_initialset">남자</string>
+    <string name="checkbox_woman_initialset">여자</string>
+    <string name="checkbox_txt_initialset">귀하의 성별</string>
+    <string name="button_initialset">몸무게 측정 시작</string>
+    <string name="text_example">정확한 측정을 위해서\n 다음과 같이 스마트폰을\n 위치시켜 주세요.</string>
+    <string-array name="height">
+        <item>150</item>
+        <item>151</item>
+        <item>152</item>
+        <item>153</item>
+        <item>154</item>
+        <item>155</item>
+        <item>156</item>
+        <item>157</item>
+        <item>158</item>
+        <item>159</item>
+        <item>160</item>
+        <item>161</item>
+        <item>162</item>
+        <item>163</item>
+        <item>164</item>
+        <item>165</item>
+        <item>166</item>
+        <item>167</item>
+        <item>168</item>
+        <item>169</item>
+        <item>170</item>
+        <item>171</item>
+        <item>172</item>
+        <item>173</item>
+        <item>174</item>
+        <item>175</item>
+        <item>176</item>
+        <item>177</item>
+        <item>178</item>
+        <item>179</item>
+        <item>180</item>
+        <item>181</item>
+        <item>182</item>
+        <item>183</item>
+        <item>184</item>
+        <item>185</item>
+        <item>186</item>
+        <item>187</item>
+        <item>188</item>
+        <item>189</item>
+        <item>190</item>
+        <item>191</item>
+        <item>192</item>
+        <item>193</item>
+        <item>194</item>
+        <item>195</item>
+        <item>196</item>
+        <item>197</item>
+        <item>198</item>
+        <item>199</item>
+    </string-array>
+
+</resources>
