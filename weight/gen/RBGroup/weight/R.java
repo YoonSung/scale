@@ -49,19 +49,20 @@ public final class R {
         public static final int yellow_btn=0x7f020012;
     }
     public static final class id {
-        public static final int action_settings=0x7f0a000c;
+        public static final int action_settings=0x7f0a000d;
         public static final int btnNext=0x7f0a0005;
-        public static final int btnStart=0x7f0a000a;
+        public static final int btnStart=0x7f0a000b;
         public static final int example_entire_layout=0x7f0a0000;
-        public static final int imgDecimal=0x7f0a0007;
-        public static final int imgFloat=0x7f0a0009;
-        public static final int imgUnit=0x7f0a0008;
-        public static final int myPicture=0x7f0a0006;
+        public static final int imgDecimal=0x7f0a0008;
+        public static final int imgFloat=0x7f0a000a;
+        public static final int imgUnit=0x7f0a0009;
+        public static final int myPicture=0x7f0a0007;
         public static final int rdoGroup=0x7f0a0001;
         public static final int rdoMan=0x7f0a0002;
         public static final int rdoWoman=0x7f0a0003;
+        public static final int realize_btn_share=0x7f0a0006;
         public static final int spinner=0x7f0a0004;
-        public static final int txtNotice=0x7f0a000b;
+        public static final int txtNotice=0x7f0a000c;
     }
     public static final class layout {
         public static final int example=0x7f030000;
