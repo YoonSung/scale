@@ -30,7 +30,7 @@ public final class R {
     public static final class drawable {
         public static final int example=0x7f020000;
         public static final int facebook=0x7f020001;
-        public static final int ic_launcher=0x7f020002;
+        public static final int icon=0x7f020002;
         public static final int kakao=0x7f020003;
         public static final int no_0=0x7f020004;
         public static final int no_1=0x7f020005;
@@ -44,12 +44,14 @@ public final class R {
         public static final int no_9=0x7f02000d;
         public static final int no_dot=0x7f02000e;
         public static final int no_kg=0x7f02000f;
-        public static final int red_btn=0x7f020010;
-        public static final int scale=0x7f020011;
-        public static final int shape=0x7f020012;
-        public static final int splash=0x7f020013;
-        public static final int twitter=0x7f020014;
-        public static final int yellow_btn=0x7f020015;
+        public static final int scale=0x7f020010;
+        public static final int selector_shape_red=0x7f020011;
+        public static final int shape_red=0x7f020012;
+        public static final int shape_red_clicked=0x7f020013;
+        public static final int shape_white=0x7f020014;
+        public static final int splash=0x7f020015;
+        public static final int twitter=0x7f020016;
+        public static final int yellow_btn=0x7f020017;
     }
     public static final class id {
         public static final int action_settings=0x7f0a000f;
