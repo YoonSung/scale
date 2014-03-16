@@ -61,6 +61,7 @@ public class InitialSet extends Activity implements OnClickListener, OnItemSelec
 		spedt.commit();
 		
 		startActivity(new Intent(InitialSet.this, Example.class));
+		finish();
 	}
 
 	@Override

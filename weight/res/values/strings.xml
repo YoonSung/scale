@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">weight</string>
-    <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="app_name">체중계</string>
     <string name="title_splash">내 몸무게는?</string>
     <string name="spinner_initialset">몸무게를 선택해 주세요</string>
     <string name="spinner_txt_initialset">키</string>
@@ -11,13 +9,21 @@
     <string name="checkbox_woman_initialset">여자</string>
     <string name="checkbox_txt_initialset">성별</string>
     <string name="button_initialset">몸무게 측정 시작</string>
-    <string name="text_example">정확한 측정을 위해서 다음과 같이 스마트폰을 위치시켜 주세요.\n화면을 터치하면 측정화면으로 이동합니다.</string>
+    <string name="text_example">정확한 측정을 위해서 다음과 같이 스마트폰을 위치시켜 주세요</string>
+    <string name="text_example_next_step">화면을 터치하면 측정화면으로 이동합니다</string>
+    
     
     <string name="scale_calculate_start">몸무게 측정 시작</string>
 	<string name="scale_calculate_text">설마..\n이게 정말 가능하다고 생각했나요?? ㅋㅋ</string>
     
-    <string name="realize_share_text">다른 사람들과 공유 하세요.</string>
-    <string name="realize_share_btn">된다고 믿은 사람들 보기</string>
+    <string name="realize_share_text">다른 사람들과 공유 하세요</string>
+    <string name="realize_share_app_btn">공유하기</string>
+    <string name="realize_share_app_text_title">친구들에게 어플추천하기</string>
+    <string name="realize_share_app_text">[몸무게 재는 어플]\n집에서 쉽게 몸무게를 측정하세요.\n친구와 함께하면\n더욱 정확해 집니다.</string>
+    <string name="realize_share_mypicture_btn">된다고 믿은 사람들 보기</string>
+    <string name="realize_share_kakaotalk_not_install">카카오톡이 설치되어있지 않습니다</string>
+    <string name="realize_share_kakaoStory_not_install">카카오스토리가 설치되어있지 않습니다</string>
+    <string name="realize_share_mypicture_upload_fail">파일업로드에 실패하였습니다.\n잠시후 다시 시도해 주세요</string>
     
     <string-array name="height">
         <item>150</item>
