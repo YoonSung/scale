@@ -24,6 +24,7 @@
     <string name="realize_share_kakaotalk_not_install">카카오톡이 설치되어있지 않습니다</string>
     <string name="realize_share_kakaoStory_not_install">카카오스토리가 설치되어있지 않습니다</string>
     <string name="realize_share_mypicture_upload_fail">파일업로드에 실패하였습니다.\n잠시후 다시 시도해 주세요</string>
+    <string name="realize_share_mypicture_uploading">사진 업로드 중입니다.\n잠시만 기다려주세요</string>
     
     <string-array name="height">
         <item>150</item>

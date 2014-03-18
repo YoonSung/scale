@@ -7,17 +7,21 @@ import java.util.Hashtable;
 import java.util.Map;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -44,7 +48,7 @@ public class Realize extends Activity implements OnClickListener {
 		imageView = (ImageView) findViewById(R.id.myPicture);
 		btnShare = (Button) findViewById(R.id.btnShare);
 		myPictureShareBtn = (Button) findViewById(R.id.myPictureShareBtn);
-
+		
 		// share layout
 		layoutShare = (FrameLayout) findViewById(R.id.layoutShare);
 		btnExit = (ImageButton) findViewById(R.id.btnExit);
@@ -134,12 +138,30 @@ public class Realize extends Activity implements OnClickListener {
 			layoutShare.setVisibility(View.GONE);
 			break;
 		case R.id.myPictureShareBtn:
-			sharePicture();
+			myPictureShare();
 			break;
 		default:
 			shareApplication(v.getId());
 			break;
 		}
+	}
+
+	private void myPictureShare() {
+		new AlertDialog.Builder(this)
+		.setIcon(R.drawable.icon)
+		.setMessage("다른사람의 사진을 보기위해서는 자신의 사진도 공유해야 합니다.")
+		.setPositiveButton("공유", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				sharePicture();
+				return;
+			}
+		}).setNegativeButton("취소", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				return;
+			}
+		}).create().show();
 	}
 
 	private void shareApplication(int resourceID) {
@@ -229,44 +251,45 @@ public class Realize extends Activity implements OnClickListener {
 				urlInfoAndroid);
 	}
 
-	private void sharePicture() {
+	class ShareMyPicture extends AsyncTask<Void, Void, Boolean> {
+
+		String id; 		
+		Float weight;
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			id = common.saveID();
+			weight = common.getWeight();
+			
+			progressDialog = ProgressDialog.show(Realize.this, "", "Wait For Seconds");
+		}
 		
-		final Handler handler = new Handler();
-		new Thread() {
-			public void run() {
-
-				handler.post(new Runnable() {
-					@Override
-					public void run() {
-						progressDialog = ProgressDialog.show(Realize.this, "",
-								"Wait For Seconds");
-					}
-				});
-
-				String id = common.saveID();
-				Float weight = common.getWeight();
-				boolean uploadRequestResult = false;
-				
-				if (id != null) {
-					uploadRequestResult = common.uploadDataToServer(id, weight,
-							filePath.getAbsolutePath());
-				} else {
-					common.centerToast(Realize.this, "File Upload Error.");
-				}
-
-				handler.post(new Runnable() {
-					@Override
-					public void run() {
-						progressDialog.cancel();
-					}
-				});
-				
-				if ( uploadRequestResult ) {
-					
-				} else {
-					common.centerToast(Realize.this, getResources().getString(R.string.realize_share_mypicture_upload_fail));
-				}
-			};
-		}.start();
+		@Override
+		protected Boolean doInBackground(Void... params) {
+			return common.uploadDataToServer(id, weight,
+					filePath.getAbsolutePath());
+		}
+		
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+			progressDialog.cancel();
+		}
+		
+		@Override
+		protected void onPostExecute(Boolean isUploadRequestSuccess) {
+			super.onPostExecute(isUploadRequestSuccess);
+			if ( !isUploadRequestSuccess ) {
+				common.centerToast(Realize.this, getResources().getString(R.string.realize_share_mypicture_upload_fail));
+			} else {
+				//list화면으로
+				//preference로 저장
+			}
+			progressDialog.cancel();
+		}
+	}
+	
+	private void sharePicture() {
+		new ShareMyPicture().execute();
 	}
 }

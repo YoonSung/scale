@@ -90,6 +90,8 @@ public class Common {
 
 		//String tempURL = "http://10.73.43.166:3080/DBProject/saveImage";// "http://192.168.1.135:3080/DBProject/saveImage";
 		String tempURL = "http://192.168.1.135:3080/DBProject/saveImage";// "http://192.168.1.135:3080/DBProject/saveImage";
+
+		boolean requestResult= false;
 		
 		String lineEnd = "\r\n";
 		String twoHyphens = "--";
@@ -163,6 +165,11 @@ public class Common {
 				sb.append((char) ch);
 			}
 			String s = sb.toString();
+			
+			if ( s.equalsIgnoreCase("success")) {
+				requestResult = true;
+			}
+			
 			Log.e("Common", "result = " + s);
 			dos.close();
 
@@ -171,7 +178,7 @@ public class Common {
 			Log.d("Common", "exception " + e.getMessage());
 		}
 
-		return true;
+		return requestResult;
 	}
 
 	public String getJsonFromServer() {

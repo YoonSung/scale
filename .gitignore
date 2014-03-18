@@ -1,4 +1,6 @@
 *.war
+weight/bin/*
+weight/gen/*
 *.jar
 *.ear
 *.class

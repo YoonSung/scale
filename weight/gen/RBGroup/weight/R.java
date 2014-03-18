@@ -105,6 +105,7 @@ public final class R {
         public static final int realize_share_kakaotalk_not_install=0x7f060011;
         public static final int realize_share_mypicture_btn=0x7f060010;
         public static final int realize_share_mypicture_upload_fail=0x7f060013;
+        public static final int realize_share_mypicture_uploading=0x7f060014;
         public static final int realize_share_text=0x7f06000c;
         public static final int scale_calculate_start=0x7f06000a;
         public static final int scale_calculate_text=0x7f06000b;
