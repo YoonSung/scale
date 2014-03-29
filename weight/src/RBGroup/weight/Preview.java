@@ -59,7 +59,7 @@ public class Preview extends SurfaceView implements Callback, Camera.PictureCall
     	Camera.Parameters parameters = mCamera.getParameters();
         List<Camera.Size> cSize = parameters.getSupportedPreviewSizes();
         Camera.Size tempSize = cSize.get(1);
-        parameters.setPreviewSize(tempSize.height, tempSize.width);
+        //parameters.setPreviewSize(tempSize.height, tempSize.width);
         mCamera.setParameters(parameters);
         mCamera.startPreview();
     }

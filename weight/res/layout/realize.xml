@@ -155,6 +155,13 @@
                 </LinearLayout>
             </LinearLayout>
         </FrameLayout>
+        
+        <ListView
+        	android:id="@+id/listtab_list"
+        	android:layout_width="match_parent"
+        	android:layout_height="match_parent"
+        	android:visibility="gone" >
+    	</ListView>
     </FrameLayout>
 
 </LinearLayout>

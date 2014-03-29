@@ -31,7 +31,8 @@ import com.google.gson.reflect.TypeToken;
 public class Common {
 
 	private String nextExecuteQuery;
-
+	private final String ROOT_PATH = "http://192.168.1.135:3080/weight";
+	
 	public Common(Context context) {
 		spf = PreferenceManager.getDefaultSharedPreferences(context);
 		editor = spf.edit();
@@ -88,8 +89,7 @@ public class Common {
 
 	public boolean uploadDataToServer(String id, Float weight, String filePath) {
 
-		//String tempURL = "http://10.73.43.166:3080/DBProject/saveImage";// "http://192.168.1.135:3080/DBProject/saveImage";
-		String tempURL = "http://192.168.1.135:3080/DBProject/saveImage";// "http://192.168.1.135:3080/DBProject/saveImage";
+		String tempURL = ROOT_PATH+"/saveImage";
 
 		boolean requestResult= false;
 		
@@ -187,8 +187,7 @@ public class Common {
 		StringBuilder sb = null;
 		String resultJsonString = "[]";
 		try {
-			String tempURL = "http://10.73.43.166:3080/DBProject/";
-			URL url = new URL(tempURL);
+			URL url = new URL(ROOT_PATH);
 
 			// HttpURLConnection으로 url의 주소를 연결합니다.
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();

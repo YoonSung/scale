@@ -56,41 +56,48 @@ public final class R {
         public static final int yellow_btn=0x7f020019;
     }
     public static final class id {
-        public static final int btnExit=0x7f090011;
+        public static final int btnExit=0x7f090016;
         public static final int btnNext=0x7f09000b;
-        public static final int btnShare=0x7f09000c;
-        public static final int btnShareFacebook=0x7f090012;
-        public static final int btnShareKakao=0x7f090013;
-        public static final int btnShareKakaoStory=0x7f090014;
-        public static final int btnShareTwitter=0x7f090015;
-        public static final int btnStart=0x7f090019;
+        public static final int btnShare=0x7f090011;
+        public static final int btnShareFacebook=0x7f090017;
+        public static final int btnShareKakao=0x7f090018;
+        public static final int btnShareKakaoStory=0x7f090019;
+        public static final int btnShareTwitter=0x7f09001a;
+        public static final int btnStart=0x7f09001f;
         public static final int embeded_facebook=0x7f090002;
         public static final int embeded_kakao=0x7f090001;
         public static final int embeded_kakaoStory=0x7f090003;
         public static final int embeded_rdoGroup=0x7f090000;
         public static final int embeded_twitter=0x7f090004;
         public static final int example_entire_layout=0x7f090005;
-        public static final int imgDecimal=0x7f090016;
-        public static final int imgFloat=0x7f090018;
-        public static final int imgUnit=0x7f090017;
-        public static final int layoutShare=0x7f090010;
-        public static final int myPicture=0x7f09000d;
-        public static final int myPictureShareBtn=0x7f09000f;
-        public static final int myPictureTxt=0x7f09000e;
+        public static final int imgDecimal=0x7f09001c;
+        public static final int imgFloat=0x7f09001e;
+        public static final int imgUnit=0x7f09001d;
+        public static final int layoutShare=0x7f090015;
+        public static final int listtab_custom_image=0x7f09000d;
+        public static final int listtab_custom_name=0x7f09000e;
+        public static final int listtab_custom_subject=0x7f090010;
+        public static final int listtab_custom_village=0x7f09000f;
+        public static final int listtab_list=0x7f09001b;
+        public static final int listtab_row=0x7f09000c;
+        public static final int myPicture=0x7f090012;
+        public static final int myPictureShareBtn=0x7f090014;
+        public static final int myPictureTxt=0x7f090013;
         public static final int rdoGroup=0x7f090007;
         public static final int rdoMan=0x7f090008;
         public static final int rdoWoman=0x7f090009;
         public static final int spinner=0x7f09000a;
         public static final int txtNext=0x7f090006;
-        public static final int txtNotice=0x7f09001a;
+        public static final int txtNotice=0x7f090020;
     }
     public static final class layout {
         public static final int embeded_share=0x7f030000;
         public static final int example=0x7f030001;
         public static final int initialset=0x7f030002;
-        public static final int realize=0x7f030003;
-        public static final int scale=0x7f030004;
-        public static final int splash=0x7f030005;
+        public static final int list_tab_cell=0x7f030003;
+        public static final int realize=0x7f030004;
+        public static final int scale=0x7f030005;
+        public static final int splash=0x7f030006;
     }
     public static final class string {
         public static final int app_name=0x7f060000;
