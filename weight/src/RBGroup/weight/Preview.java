@@ -1,11 +1,15 @@
 package RBGroup.weight;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import android.content.Context;
 import android.hardware.Camera;
+import android.hardware.Camera.Size;
 import android.util.Log;
+import android.view.Display;
 import android.view.SurfaceHolder;
+import android.view.WindowManager;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
 
@@ -13,11 +17,11 @@ public class Preview extends SurfaceView implements Callback, Camera.PictureCall
 
     private SurfaceHolder mHolder;
     private Camera mCamera = null;
-    
+    private Context context;
     
     public Preview(Context context) {
         super(context);
-        
+        this.context = context;
         try {
             mHolder = getHolder();
             mHolder.addCallback(this);
@@ -40,6 +44,7 @@ public class Preview extends SurfaceView implements Callback, Camera.PictureCall
     	    	  cam.setDisplayOrientation(0);
     	      } catch (RuntimeException e) {
     	         Log.e("1", "error");
+    	         Log.e("error 1", ""+e);
     	      }
     	    }
     	  }
@@ -55,15 +60,67 @@ public class Preview extends SurfaceView implements Callback, Camera.PictureCall
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width,
             int height) {
-        // TODO Auto-generated method stub
+
     	Camera.Parameters parameters = mCamera.getParameters();
-        List<Camera.Size> cSize = parameters.getSupportedPreviewSizes();
-        Camera.Size tempSize = cSize.get(1);
-        //parameters.setPreviewSize(tempSize.height, tempSize.width);
+        //List<Camera.Size> cSize = parameters.getSupportedPreviewSizes();
+    	List<Camera.Size> cSize = getSupportedPictureSizes();
+    	Camera.Size tempSize = cSize.get(cSize.size()-1);
+        parameters.setPreviewSize(tempSize.width, tempSize.height);
         mCamera.setParameters(parameters);
         mCamera.startPreview();
     }
 
+    //
+    public List<Camera.Size> getSupportedPictureSizes() {
+        if (mCamera == null) {
+            return null;
+        }
+     
+        List<Camera.Size> pictureSizes = mCamera.getParameters().getSupportedPictureSizes();
+                 
+        checkSupportedPictureSizeAtPreviewSize(pictureSizes);
+         
+        for (Size size : pictureSizes) {
+			Log.e("Preview","size Width : "+size.width);
+			Log.e("Preview","size Height : "+size.height);
+		}
+        
+        return pictureSizes;
+    }
+     
+    private void checkSupportedPictureSizeAtPreviewSize(List<Camera.Size> pictureSizes) {
+        List<Camera.Size> previewSizes = mCamera.getParameters().getSupportedPreviewSizes();
+        Camera.Size pictureSize;
+        Camera.Size previewSize;
+        double  pictureRatio = 0;
+        double  previewRatio = 0;
+        final double aspectTolerance = 0.05;
+        boolean isUsablePicture = false;
+         
+        for (int indexOfPicture = pictureSizes.size() - 1; indexOfPicture >= 0; --indexOfPicture) {
+            pictureSize = pictureSizes.get(indexOfPicture);
+            pictureRatio = (double) pictureSize.width / (double) pictureSize.height;
+            isUsablePicture = false;
+             
+            for (int indexOfPreview = previewSizes.size() - 1; indexOfPreview >= 0; --indexOfPreview) {
+                previewSize = previewSizes.get(indexOfPreview);
+                 
+                previewRatio = (double) previewSize.width / (double) previewSize.height;
+                 
+                if (Math.abs(pictureRatio - previewRatio) < aspectTolerance) {
+                    isUsablePicture = true;
+                    break;
+                }
+            }
+             
+            if (isUsablePicture == false) {
+                pictureSizes.remove(indexOfPicture);
+            }
+        }
+    }
+
+    
+    //
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         // TODO Auto-generated method stub

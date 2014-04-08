@@ -4,6 +4,10 @@ import java.util.Random;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -14,10 +18,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class Scale extends Activity implements OnClickListener {
+public class Scale extends Activity implements OnClickListener, SensorEventListener {
 
 	private int CHANGE_INTERVAL = 12;
-	private int MAX_MOVEMENT_NUM = 100;
+	private int MAX_MOVEMENT_NUM = 1;//50
 	private final int RETURN_RESULT_OKAY = 0;
 	private Button btnStart;
 	private SharedPreferences sp;
@@ -43,6 +47,12 @@ public class Scale extends Activity implements OnClickListener {
 	private final int CHANGE_END = 4;
 	private final int CHANGE_MOVE_REALIZE_ACTIVITY = 5;
 
+	//Sensor
+	private SensorManager sm;
+	private SensorEventListener accL;
+	private Sensor accSensor;
+	private float current=0;
+	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -50,6 +60,10 @@ public class Scale extends Activity implements OnClickListener {
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		setContentView(R.layout.scale);
 
+		//SENSOR
+		sm = (SensorManager)getSystemService(SENSOR_SERVICE); 
+	    accSensor = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+		
 		btnStart = (Button) findViewById(R.id.btnStart);
 		txtNotice = (TextView) findViewById(R.id.txtNotice);
 		imgDecimal = (ImageView) findViewById(R.id.imgDecimal);
@@ -170,8 +184,6 @@ public class Scale extends Activity implements OnClickListener {
 			detailMovementUnitNum += resultUnit;
 			detailMovementUnitNum += detailMovementNum;
 			
-//			imgUnit.setImageResource(images[resultUnit]);
-//			imgFloat.setImageResource(images[resultFloat]);
 			myTask.sendEmptyMessageDelayed(CHANGE_LAST_DETAIL_MOVE, 500 );
 			
 		} else {
@@ -193,5 +205,31 @@ public class Scale extends Activity implements OnClickListener {
 
 	private int getRandomIndex() {
 		return randomGenerator.nextInt(10);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		//sm.registerListener(this, accSensor, SensorManager.SENSOR_DELAY_NORMAL);
+		
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		sm.unregisterListener(this);
+	}
+
+	@Override
+	public void onAccuracyChanged(Sensor sensor, int accuracy) {
+	}
+
+	@Override
+	public void onSensorChanged(SensorEvent event) {
+		float var0 = event.values[0];
+		float var1 = event.values[1];
+		float var2 = event.values[2];
+		
+		current = Math.abs(var0*var1*var2);
 	}
 }

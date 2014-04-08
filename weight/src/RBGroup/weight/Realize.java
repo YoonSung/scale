@@ -20,9 +20,11 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -83,8 +85,16 @@ public class Realize extends Activity implements OnClickListener {
 		Log.e("Realize", "filePath : " + filePath);
 
 		try {
+			Display display=((WindowManager)this.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+		    int deviceWidth=(int)display.getWidth();
+		    int deviceHeight=(int)display.getHeight();
+			
+			
 			imageView.setImageDrawable(Drawable.createFromPath(filePath
 					.getAbsolutePath()));
+			imageView.getLayoutParams().width = deviceWidth;
+			imageView.getLayoutParams().height = deviceWidth*deviceWidth / deviceHeight;
+			//imageView.setScaleType(ImageView.ScaleType.MATRIX);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
