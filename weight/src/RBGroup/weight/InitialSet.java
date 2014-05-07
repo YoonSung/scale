@@ -19,15 +19,16 @@ public class InitialSet extends Activity implements OnClickListener, OnItemSelec
 	private Spinner spinner;
 	private RadioGroup rdoGroup;
 	private Button btnNext;
-	private SharedPreferences sp;
-	private SharedPreferences.Editor spedt;
-	private boolean isman = false;
+	private boolean isMan = false;
 	private int height = 150;
+	private Common common;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.initialset);
+	    
+	    common = new Common(this);
 	    
 	    spinner = (Spinner)findViewById(R.id.spinner);
 	    rdoGroup = (RadioGroup)findViewById(R.id.rdoGroup);
@@ -35,12 +36,6 @@ public class InitialSet extends Activity implements OnClickListener, OnItemSelec
 	    
 	    btnNext.setOnClickListener(this);
 	    spinner.setOnItemSelectedListener(this);
-	    
-	    sp = getSharedPreferences("info", MODE_PRIVATE);
-	    spedt = sp.edit();
-	    
-	    
-	    
 	}
 
 	@Override
@@ -49,16 +44,15 @@ public class InitialSet extends Activity implements OnClickListener, OnItemSelec
 		
 		switch(checkButton.getId()){
 			case R.id.rdoMan:
-				isman = true;
+				isMan = true;
 				break;
 			case R.id.rdoWoman:
-				isman = false;
+				isMan = false;
 				break;
 		}
 
-		spedt.putBoolean("isman", isman);
-		spedt.putInt("height", height);
-		spedt.commit();
+		common.saveWeight(height);
+		common.saveSexInfoIsMan(isMan);
 		
 		startActivity(new Intent(InitialSet.this, Example.class));
 		finish();

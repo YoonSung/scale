@@ -5,7 +5,9 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Locale;
 import java.util.Map;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -23,9 +25,9 @@ import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -203,11 +205,14 @@ public class Realize extends Activity implements OnClickListener {
 		String id; 		
 		Float weight;
 		String filePath;
+		boolean isMan;
+		
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			id = common.saveID();
-			weight = common.getWeight();
+			this.id = common.saveAndReturnID();
+			this.weight = common.getWeight();
+			this.isMan = common.getSexInfoIsMan();
 			this.filePath = Realize.this.filePath.getAbsolutePath();
 			progressDialog = ProgressDialog.show(Realize.this, "", "Wait For Seconds");
 		}
@@ -217,7 +222,15 @@ public class Realize extends Activity implements OnClickListener {
 			
 			if (id.equalsIgnoreCase(null) || weight == null || filePath.equalsIgnoreCase(null) )
 				return false;
-			return common.uploadDataToServer(id, weight,filePath);
+			
+			Locale systemLocale = getResources().getConfiguration().locale;
+			String language = systemLocale.getLanguage();
+			
+			
+			Log.e("test!!!!!", common.getJsonFromServer(id));
+			
+			
+			return common.uploadDataToServer(this.id, this.weight, this.isMan, this.filePath, language);
 		}
 		
 		@Override
@@ -234,13 +247,10 @@ public class Realize extends Activity implements OnClickListener {
 			} else {
 				//list화면으로
 				//preference로 저장
-				loadSharedPicturesList();
+				//loadSharedPicturesList();
+				//Network on MainThread Exception 
 			}
 			progressDialog.cancel();
-		}
-
-		private void loadSharedPicturesList() {
-			common.getJsonFromServer();
 		}
 	}
 	
@@ -343,7 +353,7 @@ public class Realize extends Activity implements OnClickListener {
 		
 		@Override
 		protected String doInBackground(Void... params) {
-			String jsonString = common.getJsonFromServer();
+			String jsonString = common.getJsonFromServer( common.getID() );
 			return jsonString;
 		}
 		

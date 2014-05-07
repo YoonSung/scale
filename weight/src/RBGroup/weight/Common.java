@@ -30,8 +30,12 @@ import com.google.gson.reflect.TypeToken;
 
 public class Common {
 
-	private String nextExecuteQuery;
-	private final String ROOT_PATH = "http://192.168.1.135:3080/weight";
+	//private final String ROOT_PATH = "http://192.168.1.135:3080/weight";
+	private final String ROOT_PATH = "http://54.178.137.153:8080";
+	private final String lineEnd = "\r\n";
+	private final String twoHyphens = "--";
+	private final String boundary = "*****";
+	
 	
 	public Common(Context context) {
 		spf = PreferenceManager.getDefaultSharedPreferences(context);
@@ -83,19 +87,25 @@ public class Common {
 		return list;
 	}
 
-	public void setNextExecuteQuery(String nextExecuteQuery) {
-		this.nextExecuteQuery = nextExecuteQuery;
+	private String getPostData(String key, String value) {
+		String result = twoHyphens + boundary + lineEnd;
+		result +="Content-Disposition: form-data; name=\"" + key + "\"" + lineEnd;
+		result += lineEnd;
+		
+		result += value;
+		
+		result += lineEnd;
+		
+		return result;
 	}
+	
+	
+	public boolean uploadDataToServer(String id, Float weight, boolean isMan, String path, String language) {
 
-	public boolean uploadDataToServer(String id, Float weight, String filePath) {
-
-		String tempURL = ROOT_PATH+"/saveImage";
+		String tempURL = ROOT_PATH + "/upload";
 
 		boolean requestResult= false;
 		
-		String lineEnd = "\r\n";
-		String twoHyphens = "--";
-		String boundary = "*****";
 		URL connectUrl = null;
 		HttpURLConnection conn = null;
 		DataOutputStream dos = null;
@@ -103,7 +113,7 @@ public class Common {
 		FileInputStream mFileInputStream = null;
 		try {
 
-			mFileInputStream = new FileInputStream(filePath);
+			mFileInputStream = new FileInputStream(path);
 			connectUrl = new URL(tempURL);
 			Log.d("Common", "mFileInputStream  is " + mFileInputStream);
 
@@ -113,16 +123,26 @@ public class Common {
 			conn.setDoOutput(true);
 			conn.setUseCaches(false);
 			conn.setRequestMethod("POST");
+			conn.setRequestProperty("Cache-Control", "no-cache");
 			conn.setRequestProperty("Connection", "Keep-Alive");
-			conn.setRequestProperty("Content-Type",
-					"multipart/form-data;boundary=" + boundary);
-
 			
+			conn.setRequestProperty("Transfer-Encoding", "chunked");
+			conn.setDoOutput(true);
+			conn.setDoInput(true);
+			
+			conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
 			dos = new DataOutputStream(conn.getOutputStream());
+			
+			dos.write( getPostData("id", ""+id).getBytes("UTF-8"));
+			dos.write( getPostData("isMan", ""+isMan).getBytes("UTF-8"));
+			dos.write( getPostData("weight", ""+weight).getBytes("UTF-8"));
+			dos.write( getPostData("path", ""+path).getBytes("UTF-8"));
+			dos.write( getPostData("language", ""+language).getBytes("UTF-8"));
+			
 			
 			// write image data
 			dos.writeBytes(twoHyphens + boundary + lineEnd);
-			dos.writeBytes("Content-Disposition: form-data; name=\"uploadedfile\";filename=\""
+			dos.writeBytes("Content-Disposition: form-data; name=\"image\";filename=\""
 					+ id + ".png\"" + lineEnd);
 			dos.writeBytes(lineEnd);
 
@@ -166,7 +186,7 @@ public class Common {
 			}
 			String s = sb.toString();
 			
-			if ( s.equalsIgnoreCase("success")) {
+			if ( s.equalsIgnoreCase("true")) {
 				requestResult = true;
 			}
 			
@@ -181,13 +201,13 @@ public class Common {
 		return requestResult;
 	}
 
-	public String getJsonFromServer() {
+	public String getJsonFromServer(String id) {
 
 		BufferedReader br = null;
 		StringBuilder sb = null;
 		String resultJsonString = "[]";
 		try {
-			URL url = new URL(ROOT_PATH);
+			URL url = new URL(ROOT_PATH+"/getList");
 
 			// HttpURLConnection으로 url의 주소를 연결합니다.
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -208,7 +228,6 @@ public class Common {
 			// 캐릭터셋을 UTF-8로 요청
 			conn.setRequestProperty("Accept-Charset", "UTF-8");
 			// String qr = URLEncoder.encode(query,"UTF-8");
-			Log.e("Common", "sql = " + nextExecuteQuery);
 			// 캐시된 데이터를 사용하지 않고 매번 서버로부터 다시 받음
 			conn.setRequestProperty("Cache-Controll", "no-cache");
 			// 서버로부터 JSON 형식의 타입으로 데이터 요청
@@ -220,7 +239,7 @@ public class Common {
 			PrintWriter out = new PrintWriter(new OutputStreamWriter(
 					conn.getOutputStream(), "UTF-8"));
 			// out.print(query);
-			out.print(nextExecuteQuery);
+			out.print(id);
 			out.flush();
 			out.close();
 
@@ -266,7 +285,7 @@ public class Common {
 	private SharedPreferences spf;
 	private SharedPreferences.Editor editor;
 
-	String saveID() {
+	String saveAndReturnID() {
 		UUID uuid = UUID.randomUUID();
 		String uuidString = uuid.toString();
 
@@ -276,13 +295,21 @@ public class Common {
 	}
 
 	String getID() {
-		return null;
+		return readStringPreference("id");
 	}
 
 	void saveWeight(float weight) {
 		savePreference("weight", weight);
 	}
 
+	void saveSexInfoIsMan(boolean isMan) {
+		savePreference("isMan", true);
+	}
+	
+	boolean getSexInfoIsMan() {
+		return readBooleanPreference("isMan");
+	}
+	
 	float getWeight() {
 		return readFloatPreference("weight");
 	}
@@ -302,6 +329,10 @@ public class Common {
 		editor.commit();
 	}
 
+	private boolean readBooleanPreference(String key) {
+		return spf.getBoolean(key, false);
+	}
+	
 	private String readStringPreference(String key) {
 		return spf.getString(key, null);
 	}
