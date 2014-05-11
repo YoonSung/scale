@@ -219,16 +219,11 @@ public class Realize extends Activity implements OnClickListener {
 		
 		@Override
 		protected Boolean doInBackground(Void... params) {
-			
 			if (id.equalsIgnoreCase(null) || weight == null || filePath.equalsIgnoreCase(null) )
 				return false;
 			
 			Locale systemLocale = getResources().getConfiguration().locale;
 			String language = systemLocale.getLanguage();
-			
-			
-			Log.e("test!!!!!", common.getJsonFromServer(id));
-			
 			
 			return common.uploadDataToServer(this.id, this.weight, this.isMan, this.filePath, language);
 		}
@@ -236,6 +231,7 @@ public class Realize extends Activity implements OnClickListener {
 		@Override
 		protected void onCancelled() {
 			super.onCancelled();
+			common.centerToast(Realize.this, getResources().getString(R.string.realize_share_mypicture_upload_fail));
 			progressDialog.cancel();
 		}
 		
@@ -248,7 +244,8 @@ public class Realize extends Activity implements OnClickListener {
 				//list화면으로
 				//preference로 저장
 				//loadSharedPicturesList();
-				//Network on MainThread Exception 
+				//Network on MainThread Exception
+				new GetSharedPictures().execute();
 			}
 			progressDialog.cancel();
 		}
@@ -343,7 +340,7 @@ public class Realize extends Activity implements OnClickListener {
 				"UTF-8", 
 				urlInfoAndroid);
 	}
-
+	/************************************************************************************/
 	class GetSharedPictures extends AsyncTask<Void, Void, String> {
 
 		@Override
@@ -353,7 +350,8 @@ public class Realize extends Activity implements OnClickListener {
 		
 		@Override
 		protected String doInBackground(Void... params) {
-			String jsonString = common.getJsonFromServer( common.getID() );
+			String jsonString = common.loadSharedPicturesList( common.getID() );
+			Log.e("Realize.java", ""+jsonString);
 			return jsonString;
 		}
 		
@@ -390,6 +388,7 @@ public class Realize extends Activity implements OnClickListener {
 		ListTabAdapter ListTabAdapter = new ListTabAdapter(this, R.layout.list_tab_cell, listDataArrayList);
 		listView.setAdapter(ListTabAdapter);
 	}
+	/************************************************************************************/
 	
 	private class ListTabAdapter extends ArrayAdapter<ListData> implements OnClickListener {
 

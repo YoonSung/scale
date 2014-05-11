@@ -1,12 +1,8 @@
 package RBGroup.weight;
 
-import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -30,7 +26,7 @@ import com.google.gson.reflect.TypeToken;
 
 public class Common {
 
-	//private final String ROOT_PATH = "http://192.168.1.135:3080/weight";
+	//private final String ROOT_PATH = "http://192.168.1.130:8080";
 	private final String ROOT_PATH = "http://54.178.137.153:8080";
 	private final String lineEnd = "\r\n";
 	private final String twoHyphens = "--";
@@ -201,85 +197,52 @@ public class Common {
 		return requestResult;
 	}
 
-	public String getJsonFromServer(String id) {
+	public String loadSharedPicturesList(String id) {
+		String tempURL = ROOT_PATH + "/getList";
 
-		BufferedReader br = null;
-		StringBuilder sb = null;
-		String resultJsonString = "[]";
+		String  requestResult= null;
+		
+		URL connectUrl = null;
+		HttpURLConnection conn = null;
+		DataOutputStream dos = null;
+
 		try {
-			URL url = new URL(ROOT_PATH+"/getList");
 
-			// HttpURLConnection으로 url의 주소를 연결합니다.
-			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-
-			// 서버 접속시의 Time out(ms)
-			conn.setConnectTimeout(10 * 1000);
-			// Read시의 Time out(ms)
-			conn.setReadTimeout(10 * 1000);
-
-			conn.setDoOutput(true);
-			// once you set the output to true, you don't really need to set the
-			// request method to post, but I'm doing it anyway
-
-			// 요청 방식 선택
-			conn.setRequestMethod("POST");
-			// 연결을 지속하도록 함
-			conn.setRequestProperty("Connection", "Keep-Alive");
-			// 캐릭터셋을 UTF-8로 요청
-			conn.setRequestProperty("Accept-Charset", "UTF-8");
-			// String qr = URLEncoder.encode(query,"UTF-8");
-			// 캐시된 데이터를 사용하지 않고 매번 서버로부터 다시 받음
-			conn.setRequestProperty("Cache-Controll", "no-cache");
-			// 서버로부터 JSON 형식의 타입으로 데이터 요청
-			conn.setRequestProperty("Accept", "application/json");
-
-			// InputStream으로 서버에서부터 응답을 받겠다는 옵션
+			connectUrl = new URL(tempURL);
+			
+			// open connection
+			conn = (HttpURLConnection) connectUrl.openConnection();
 			conn.setDoInput(true);
+			conn.setDoOutput(true);
+			conn.setUseCaches(false);
+			conn.setRequestMethod("POST");
+			conn.setDoOutput(true);
+			conn.setDoInput(true);
+			
+			conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
+			dos = new DataOutputStream(conn.getOutputStream());
+			
+			dos.write( getPostData("id", ""+id).getBytes("UTF-8"));
+			dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+			dos.flush(); // finish
 
-			PrintWriter out = new PrintWriter(new OutputStreamWriter(
-					conn.getOutputStream(), "UTF-8"));
-			// out.print(query);
-			out.print(id);
-			out.flush();
-			out.close();
-
-			// 위에서 Request Header정보를 설정해 주고 connect()로 연결을 한다.
-			// conn.connect();
-
-			int status = conn.getResponseCode();
-			System.out.println("status : " + status);
-			switch (status) {
-			case 200:
-			case 201:
-				br = new BufferedReader(new InputStreamReader(
-						conn.getInputStream()));
-				sb = new StringBuilder();
-				String line = br.readLine();
-
-				if (line == null) {
-					return resultJsonString;
-				}
-				Log.e("Common", "line : " + line);
-
-				while (line != null) {
-					sb.append(line + "\n");
-					line = br.readLine();
-				}
-				br.close();
-
-				Log.e("Common", "result : " + sb.toString());
-				resultJsonString = sb.toString();
-				break;
-			case 400:
-				resultJsonString = "error";
+			// get response
+			int ch;
+			InputStream is = conn.getInputStream();
+			StringBuffer sb = new StringBuffer();
+			while ((ch = is.read()) != -1) {
+				sb.append((char) ch);
 			}
+			String s = sb.toString();
+			
+			Log.e("Common", "load Shared Picture List = " + s);
+			dos.close();
 
 		} catch (Exception e) {
-			e.printStackTrace();
-			resultJsonString = "error";
+			Log.d("Common", "exception " + e.getMessage());
 		}
-		Log.e("Common", "resultJsonString : " + resultJsonString);
-		return resultJsonString;
+
+		return requestResult;
 	}
 
 	private SharedPreferences spf;
