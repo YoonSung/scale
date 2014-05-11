@@ -1,48 +1,52 @@
 package RBGroup.weight;
 
 public class ListData {
-	String name;
-	String imgURL;
-	int village;
-	String subject;
+	String id;
+	boolean isMan;
+	float weight;
+	String language;
 	
-	public ListData(String name, String imgURL, int village, String subject) {
-		this.name = name;
-		this.imgURL = imgURL;
-		this.village = village;
-		this.subject = subject;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
+	public ListData(String id, boolean isMan, float weight, String language) {
+		this.id = id;
+		this.isMan = isMan;
+		this.weight = weight;
+		this.language = language;
 	}
 
 	public String getImgURL() {
-		return imgURL;
-	}
-
-	public void setImgURL(String imgURL) {
-		this.imgURL = imgURL;
-	}
-
-	public void setVillage(int village) {
-		this.village = village;
+		return Common.ROOT_PATH + "/images/" + this.id;
 	}
 	
-	public int getVillage() {
-		return village;
+	public String getId() {
+		return id;
 	}
 
-	public String getSubject() {
-		return subject;
+	public void setId(String id) {
+		this.id = id;
 	}
 
-	public void setSubject(String subject) {
-		this.subject = subject;
+	public boolean isMan() {
+		return isMan;
+	}
+
+	public void setMan(boolean isMan) {
+		this.isMan = isMan;
+	}
+
+	public float getWeight() {
+		return weight;
+	}
+
+	public void setWeight(float weight) {
+		this.weight = weight;
+	}
+
+	public String getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(String language) {
+		this.language = language;
 	}
 }
 

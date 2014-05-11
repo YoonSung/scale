@@ -79,7 +79,6 @@ public class Realize extends Activity implements OnClickListener {
 		btnShareKakao.setOnClickListener(this);
 		btnShareKakaoStory.setOnClickListener(this);
 
-		//
 		listView = (ListView)findViewById(R.id.listtab_list);
 		
 		common = new Common(this);
@@ -101,59 +100,6 @@ public class Realize extends Activity implements OnClickListener {
 			e.printStackTrace();
 		}
 	}
-
-	//
-	// ImageButton btnKakao, btnTwitter, btnFacebook ;
-	// btnKakao=(ImageButton)findViewById(R.id.btnKakao);
-	// btnTwitter=(ImageButton)findViewById(R.id.btnTwitter);
-	// btnFacebook=(ImageButton)findViewById(R.id.btnFacebook);
-	// btnKakao.setOnClickListener(this);
-	// btnTwitter.setOnClickListener(this);
-	// btnFacebook.setOnClickListener(this);
-	//
-	// String message ="";
-	// String referenceURLString =
-	// "https://market.android.com/details?hl=ko&id=com.DooitLocalResearch";
-	// String appVersion = "1.0";
-	//
-	//
-	//
-	// if(v.getId()==R.id.btnKakao){
-	// try {
-	// ArrayList< Map < String, String > > arrMetaInfo = new ArrayList< Map<
-	// String, String > >();
-	// Map < String, String > metaInfoAndroid = new Hashtable < String, String
-	// >(1);
-	// metaInfoAndroid.put("os", "android");
-	// metaInfoAndroid.put("devicetype", "phone");
-	// metaInfoAndroid.put("installurl",
-	// "market://details?id=com.DooitLocalResearch");
-	// metaInfoAndroid.put("executeurl",
-	// "market://details?id=com.DooitLocalResearch");
-	// arrMetaInfo.add(metaInfoAndroid);
-	// KakaoLink link = new KakaoLink(this, "www.dooit.co.kr",
-	// referenceURLString, appVersion,
-	// message, "test", arrMetaInfo, "UTF-8");
-	// if (link.isAvailable()) {
-	// startActivity(link.getIntent());
-	// } else {
-	// common.centerToast(Realize.this, "File Upload Error.");
-	// }
-	// }catch(UnsupportedEncodingException e){
-	// e.printStackTrace();
-	// }
-	// }else{
-	// switch(v.getId()){
-	// case R.id.btnTwitter :
-	// recommendURL="http://twitter.com/home?status="+message+"test : \""+referenceURLString;
-	// break;
-	// case R.id.btnFacebook :
-	// recommendURL="http://www.facebook.com/sharer/sharer.php?s=100&p[url]="+referenceURLString
-	// +"&p[images][0]=http://dooit.co.kr/include/img/dooit/btn_main01.gif&p[title]="+message;
-	// break;
-	// }
-	// startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(recommendURL) ));
-	//
 
 	@Override
 	public void onClick(View v) {
@@ -196,8 +142,13 @@ public class Realize extends Activity implements OnClickListener {
 	}
 
 	private void sharePicture() {
-		//if network check is valid
-		new ShareMyPicture().execute();
+		if ( common.checkNetwork(Realize.this) );
+			new ShareMyPicture().execute();
+	}
+	
+	private void getSharedListFromSameLanguage() {
+		if ( common.checkNetwork(Realize.this) );
+			new GetSharedPictures().execute();
 	}
 	
 	class ShareMyPicture extends AsyncTask<Void, Void, Boolean> {
@@ -245,7 +196,7 @@ public class Realize extends Activity implements OnClickListener {
 				//preference로 저장
 				//loadSharedPicturesList();
 				//Network on MainThread Exception
-				new GetSharedPictures().execute();
+				getSharedListFromSameLanguage();
 			}
 			progressDialog.cancel();
 		}
@@ -360,16 +311,16 @@ public class Realize extends Activity implements OnClickListener {
 			super.onPostExecute(result);
 			
 			if (result != "error" ) {
-				list = common.getMapFromJsonString(result);
-				updateView();
+				listView.setVisibility(View.VISIBLE);
+				updateView( common.getMapFromJsonString(result) );
 			}
 		}
 	}
 	
-	public void updateView () {
+	public void updateView ( ArrayList<Map<String, Object>> list) {
 		if (list != null ) {
 			for ( int i = 0 ; i < list.size() ; i++ ) {
-				Map<String, String> map = list.get(i);
+				Map<String, Object> map = list.get(i);
 				
 //				Log.e("ListTab_map_name", map.get("name"));
 //				Log.e("ListTab_map_village", map.get("village"));
@@ -377,10 +328,10 @@ public class Realize extends Activity implements OnClickListener {
 				
 				listDataArrayList.add(
 						new ListData(
-								map.get("name"),
-								map.get("image"),
-								Integer.parseInt(map.get("village")),
-								map.get("subname")
+								(String)map.get("id"),
+								( (Integer)map.get("isMan") == 0 ) ? false: true,
+								Float.parseFloat(""+map.get("weight")),
+								(String)map.get("language")
 								));
 			}
 		}
@@ -415,37 +366,25 @@ public class Realize extends Activity implements OnClickListener {
 			listData = items.get(position);
 			if (listData != null) {
 		
-				TextView name, subject, village;
+				TextView txtIsMan, txtWeight, txtLanguage;
 				ImageView image;
 				LinearLayout row;
 		
 				row = (LinearLayout) view.findViewById(R.id.listtab_row);
-				name = (TextView) view.findViewById(R.id.listtab_custom_name);
-				subject = (TextView) view.findViewById(R.id.listtab_custom_subject);
-				village = (TextView) view.findViewById(R.id.listtab_custom_village);
 				image = (ImageView) view.findViewById(R.id.listtab_custom_image);
+				txtIsMan = (TextView) view.findViewById(R.id.listtab_custom_isMan);
+				txtWeight = (TextView) view.findViewById(R.id.listtab_custom_weight);
+				txtLanguage = (TextView) view.findViewById(R.id.listtab_custom_language);
 				
 				row.setTag(position);
 				row.setOnClickListener(this);
 		
-		//		Log.e("ListTab", "getName : "+listData.getName());
-		//		Log.e("ListTab", "getVillage : "+listData.getVillage());
-		//		Log.e("ListTab", "getSubject : "+listData.getSubject());
-		
+				txtIsMan.setText("성별 : " + ((listData.isMan == true)? "남자" : "여자") );
+				txtWeight.setText("몸무게 : "+listData.getWeight());
+				txtLanguage.setText("언어권 : "+listData.getLanguage());
 				
-				name.setText("이름 : "+listData.getName());
-				village.setText("마을 : "+listData.getVillage());
-				subject.setText("수업 : "+listData.getSubject());
-				
-				if ( listData.getImgURL() != null ) {
-					new DownloadImageTask((ImageView) view.findViewById(R.id.listtab_custom_image))
-			       .execute(listData.getImgURL());
-					//image.setImageDrawable(common.LoadImageFromWebOperations(listData.getImgURL()));
-				} else {
-					new DownloadImageTask((ImageView) view.findViewById(R.id.listtab_custom_image))
-			        .execute("https://cdn2.iconfinder.com/data/icons/picons-basic-1/57/basic1-025_book_reading-32.png");
-					//image.setImageDrawable(common.LoadImageFromWebOperations("https://cdn2.iconfinder.com/data/icons/picons-basic-1/57/basic1-025_book_reading-32.png"));
-				}
+				new DownloadImageTask(image).execute(listData.getImgURL());
+				//image.setImageDrawable(common.LoadImageFromWebOperations(listData.getImgURL()));
 			}
 		
 			return view;

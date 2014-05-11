@@ -23,7 +23,7 @@
             android:orientation="vertical" >
 
             <TextView
-                android:id="@+id/listtab_custom_name"
+                android:id="@+id/listtab_custom_isMan"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="17sp"
@@ -32,14 +32,14 @@
                 android:layout_marginBottom="5dp" />
 
             <TextView
-                android:id="@+id/listtab_custom_village"
+                android:id="@+id/listtab_custom_weight"
                 android:textSize="15sp"
                 android:textColor="#51574B"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             
             <TextView
-                android:id="@+id/listtab_custom_subject"
+                android:id="@+id/listtab_custom_language"
                 android:textSize="16sp"
                 android:textColor="#51574B"
                 android:layout_width="wrap_content"

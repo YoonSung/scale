@@ -27,7 +27,7 @@ import com.google.gson.reflect.TypeToken;
 public class Common {
 
 	//private final String ROOT_PATH = "http://192.168.1.130:8080";
-	private final String ROOT_PATH = "http://54.178.137.153:8080";
+	public static final String ROOT_PATH = "http://54.178.137.153:8080";
 	private final String lineEnd = "\r\n";
 	private final String twoHyphens = "--";
 	private final String boundary = "*****";
@@ -70,11 +70,11 @@ public class Common {
 		return false;
 	}
 
-	public ArrayList<Map<String, String>> getMapFromJsonString(String json) {
+	public ArrayList<Map<String, Object>> getMapFromJsonString(String json) {
 		Gson gson = new Gson();
 
-		ArrayList<Map<String, String>> list = new ArrayList<Map<String, String>>();
-		Type listType = new TypeToken<List<Map<String, String>>>() {
+		ArrayList<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+		Type listType = new TypeToken<List<Map<String, Object>>>() {
 		}.getType();
 		list = gson.fromJson(json, listType);
 
@@ -94,7 +94,6 @@ public class Common {
 		
 		return result;
 	}
-	
 	
 	public boolean uploadDataToServer(String id, Float weight, boolean isMan, String path, String language) {
 
