@@ -56,6 +56,7 @@ public final class R {
         public static final int yellow_btn=0x7f020019;
     }
     public static final class id {
+        public static final int btnCloseSharedList=0x7f09001d;
         public static final int btnExit=0x7f090016;
         public static final int btnNext=0x7f09000b;
         public static final int btnShare=0x7f090011;
@@ -63,22 +64,23 @@ public final class R {
         public static final int btnShareKakao=0x7f090018;
         public static final int btnShareKakaoStory=0x7f090019;
         public static final int btnShareTwitter=0x7f09001a;
-        public static final int btnStart=0x7f09001f;
+        public static final int btnStart=0x7f090021;
         public static final int embeded_facebook=0x7f090002;
         public static final int embeded_kakao=0x7f090001;
         public static final int embeded_kakaoStory=0x7f090003;
         public static final int embeded_rdoGroup=0x7f090000;
         public static final int embeded_twitter=0x7f090004;
         public static final int example_entire_layout=0x7f090005;
-        public static final int imgDecimal=0x7f09001c;
-        public static final int imgFloat=0x7f09001e;
-        public static final int imgUnit=0x7f09001d;
+        public static final int imgDecimal=0x7f09001e;
+        public static final int imgFloat=0x7f090020;
+        public static final int imgUnit=0x7f09001f;
+        public static final int layoutList=0x7f09001b;
         public static final int layoutShare=0x7f090015;
         public static final int listtab_custom_image=0x7f09000d;
-        public static final int listtab_custom_name=0x7f09000e;
-        public static final int listtab_custom_subject=0x7f090010;
-        public static final int listtab_custom_village=0x7f09000f;
-        public static final int listtab_list=0x7f09001b;
+        public static final int listtab_custom_isMan=0x7f09000e;
+        public static final int listtab_custom_language=0x7f090010;
+        public static final int listtab_custom_weight=0x7f09000f;
+        public static final int listtab_list=0x7f09001c;
         public static final int listtab_row=0x7f09000c;
         public static final int myPicture=0x7f090012;
         public static final int myPictureShareBtn=0x7f090014;
@@ -88,7 +90,7 @@ public final class R {
         public static final int rdoWoman=0x7f090009;
         public static final int spinner=0x7f09000a;
         public static final int txtNext=0x7f090006;
-        public static final int txtNotice=0x7f090020;
+        public static final int txtNotice=0x7f090022;
     }
     public static final class layout {
         public static final int embeded_share=0x7f030000;
@@ -105,17 +107,30 @@ public final class R {
         public static final int checkbox_man_initialset=0x7f060004;
         public static final int checkbox_txt_initialset=0x7f060006;
         public static final int checkbox_woman_initialset=0x7f060005;
-        public static final int realize_share_app_btn=0x7f06000d;
-        public static final int realize_share_app_text=0x7f06000f;
-        public static final int realize_share_app_text_title=0x7f06000e;
-        public static final int realize_share_kakaoStory_not_install=0x7f060012;
-        public static final int realize_share_kakaotalk_not_install=0x7f060011;
-        public static final int realize_share_mypicture_btn=0x7f060010;
-        public static final int realize_share_mypicture_upload_fail=0x7f060013;
-        public static final int realize_share_mypicture_uploading=0x7f060014;
-        public static final int realize_share_text=0x7f06000c;
+        /**  template 
+    <string name="realize_share_mypicture_alert_"></string> 
+    
+         */
+        public static final int realize_close_sharedlist_btn=0x7f06001d;
+        public static final int realize_share_app_btn=0x7f06000f;
+        public static final int realize_share_app_text=0x7f060011;
+        public static final int realize_share_app_text_title=0x7f060010;
+        public static final int realize_share_kakaoStory_not_install=0x7f060014;
+        public static final int realize_share_kakaotalk_not_install=0x7f060013;
+        public static final int realize_share_mypicture_alert_cancel=0x7f060019;
+        public static final int realize_share_mypicture_alert_confirm=0x7f060018;
+        public static final int realize_share_mypicture_alert_title=0x7f060017;
+        public static final int realize_share_mypicture_btn=0x7f060012;
+        public static final int realize_share_mypicture_upload_fail=0x7f060015;
+        public static final int realize_share_mypicture_uploading=0x7f060016;
+        public static final int realize_share_text=0x7f06000e;
+        public static final int realize_shared_list_alert_language=0x7f06001c;
+        public static final int realize_shared_list_sex=0x7f06001a;
+        public static final int realize_shared_list_weight=0x7f06001b;
+        public static final int scale_calculate_now=0x7f06000c;
         public static final int scale_calculate_start=0x7f06000a;
         public static final int scale_calculate_text=0x7f06000b;
+        public static final int scale_surprise_comment=0x7f06000d;
         public static final int spinner_initialset=0x7f060002;
         public static final int spinner_txt_initialset=0x7f060003;
         public static final int text_example=0x7f060008;

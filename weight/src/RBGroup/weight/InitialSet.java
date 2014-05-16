@@ -30,6 +30,13 @@ public class InitialSet extends Activity implements OnClickListener, OnItemSelec
 	    
 	    common = new Common(this);
 	    
+	    //Check Already Share Picture
+	    if ( common.getID() != null ) {
+	    	startActivity(new Intent(InitialSet.this, Realize.class));
+	    	finish();
+	    }
+	    
+	    //Default Action Component
 	    spinner = (Spinner)findViewById(R.id.spinner);
 	    rdoGroup = (RadioGroup)findViewById(R.id.rdoGroup);
 	    btnNext = (Button)findViewById(R.id.btnNext);

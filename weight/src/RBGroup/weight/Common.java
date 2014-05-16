@@ -26,8 +26,9 @@ import com.google.gson.reflect.TypeToken;
 
 public class Common {
 
-	//private final String ROOT_PATH = "http://192.168.1.130:8080";
-	public static final String ROOT_PATH = "http://54.178.137.153:8080";
+	//public static final String ROOT_PATH = "http://192.168.1.130:8080";
+	//public static final String ROOT_PATH = "http://54.178.137.153:8080";
+	public static final String ROOT_PATH = "http://10.73.43.226:8080";
 	private final String lineEnd = "\r\n";
 	private final String twoHyphens = "--";
 	private final String boundary = "*****";
@@ -114,6 +115,7 @@ public class Common {
 
 			// open connection
 			conn = (HttpURLConnection) connectUrl.openConnection();
+			conn.setConnectTimeout(10 * 1000);
 			conn.setDoInput(true);
 			conn.setDoOutput(true);
 			conn.setUseCaches(false);
@@ -196,9 +198,7 @@ public class Common {
 		return requestResult;
 	}
 
-	public String loadSharedPicturesList(String id) {
-		String tempURL = ROOT_PATH + "/getList";
-
+	public String requestServerDataById(String url, String id) {
 		String  requestResult= null;
 		
 		URL connectUrl = null;
@@ -207,7 +207,7 @@ public class Common {
 
 		try {
 
-			connectUrl = new URL(tempURL);
+			connectUrl = new URL(url);
 			
 			// open connection
 			conn = (HttpURLConnection) connectUrl.openConnection();
@@ -232,9 +232,9 @@ public class Common {
 			while ((ch = is.read()) != -1) {
 				sb.append((char) ch);
 			}
-			String s = sb.toString();
+			requestResult = sb.toString();
 			
-			Log.e("Common", "load Shared Picture List = " + s);
+			Log.e("Common", "load Shared Picture List = " + requestResult);
 			dos.close();
 
 		} catch (Exception e) {
@@ -242,6 +242,12 @@ public class Common {
 		}
 
 		return requestResult;
+	}
+	
+	public String loadSharedPicturesList(String id) {
+		String url = ROOT_PATH + "/getList";
+
+		return requestServerDataById(url, id);
 	}
 
 	private SharedPreferences spf;

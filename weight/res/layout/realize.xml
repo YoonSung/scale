@@ -16,9 +16,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:text="@string/realize_share_text"
             android:textColor="#fff"
-            android:layout_gravity="center"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -51,18 +51,19 @@
         android:padding="5dp" >
 
         <ImageView
-                    android:id="@+id/myPicture"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center" />
+            android:id="@+id/myPicture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+
         <TextView
-            		android:id="@+id/myPictureTxt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="top|center_horizontal"
-                    android:layout_marginTop="30dp"
-                    android:background="#000"
-                    android:textColor="#fff" />
+            android:id="@+id/myPictureTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center_horizontal"
+            android:layout_marginTop="30dp"
+            android:background="#000"
+            android:textColor="#fff" />
 
         <Button
             android:id="@+id/myPictureShareBtn"
@@ -72,14 +73,13 @@
             android:layout_marginTop="30dp"
             android:background="@drawable/selector_shape_red"
             android:text="@string/realize_share_mypicture_btn" />
-        
-        
+
         <FrameLayout
             android:id="@+id/layoutShare"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone"
-            android:background="@drawable/shape_white" >
+            android:background="@drawable/shape_white"
+            android:visibility="gone" >
 
             <ImageButton
                 android:id="@+id/btnExit"
@@ -155,13 +155,30 @@
                 </LinearLayout>
             </LinearLayout>
         </FrameLayout>
-        
-        <ListView
-        	android:id="@+id/listtab_list"
-        	android:layout_width="match_parent"
-        	android:layout_height="match_parent"
-        	android:visibility="gone" >
-    	</ListView>
+
+        <FrameLayout
+            android:id="@+id/layoutList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:background="#fff"
+            android:orientation="vertical" >
+
+            <ListView
+                android:id="@+id/listtab_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+            </ListView>
+
+            <Button
+                android:id="@+id/btnCloseSharedList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/selector_shape_red"
+                android:text="@string/realize_close_sharedlist_btn" />
+        </FrameLayout>
     </FrameLayout>
 
 </LinearLayout>

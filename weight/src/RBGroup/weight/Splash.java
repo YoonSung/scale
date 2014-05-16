@@ -20,6 +20,6 @@ public class Splash extends Activity {
     			finish();
     		}
     	};
-    	myTask.sendEmptyMessageDelayed(0, 400);
+    	myTask.sendEmptyMessageDelayed(0, 800);
 	}
 }

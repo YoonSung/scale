@@ -1,22 +1,26 @@
 package RBGroup.weight;
 
+import java.io.File;
+
 public class ListData {
-	String id;
-	boolean isMan;
-	float weight;
-	String language;
-	
+	private String id;
+	private boolean isMan;
+	private float weight;
+	private String language;
+	private String imageUrl;
+
 	public ListData(String id, boolean isMan, float weight, String language) {
 		this.id = id;
 		this.isMan = isMan;
 		this.weight = weight;
 		this.language = language;
+		this.imageUrl = Common.ROOT_PATH+File.separator+"image?id="+id;
 	}
 
-	public String getImgURL() {
-		return Common.ROOT_PATH + "/images/" + this.id;
+	public String getImageUrl() {
+		return imageUrl;
 	}
-	
+
 	public String getId() {
 		return id;
 	}

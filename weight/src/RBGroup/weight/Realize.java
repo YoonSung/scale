@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Locale;
 import java.util.Map;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -36,6 +35,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class Realize extends Activity implements OnClickListener {
 
@@ -53,14 +53,36 @@ public class Realize extends Activity implements OnClickListener {
 
 	// sharedList
 	private ArrayList<ListData> listDataArrayList = new ArrayList<ListData>();
-	private ArrayList<Map<String,String>> list;
 	private ListView listView; 
+	private FrameLayout layoutList;
+	private Button btnCloseSharedList;
+	
+	//flag
+	private boolean isAlreadyShared = false;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.realize);
 
+		common = new Common(this);
+		filePath = getFileStreamPath(myPictureName);
+		Log.e("Realize", "filePath : " + filePath);
+		
+		//Check Already Share Picture
+		//네트워크 요청 후 Path정보를 가져온뒤, File이 존재하는지 체크한다.
+	    if ( common.getID() != null ) {
+    		this.isAlreadyShared = filePath.exists();
+    		
+    		Log.e("Realize", "isAlreadyShared : " + isAlreadyShared);
+	    }
+		
+	    if ( isAlreadyShared == false ) {
+	    	startActivity(new Intent(Realize.this, InitialSet.class));
+	    	finish();
+	    }
+		
+	    
 		imageView = (ImageView) findViewById(R.id.myPicture);
 		btnShare = (Button) findViewById(R.id.btnShare);
 		myPictureShareBtn = (Button) findViewById(R.id.myPictureShareBtn);
@@ -80,11 +102,10 @@ public class Realize extends Activity implements OnClickListener {
 		btnShareKakaoStory.setOnClickListener(this);
 
 		listView = (ListView)findViewById(R.id.listtab_list);
+		layoutList = (FrameLayout)findViewById(R.id.layoutList);
+		btnCloseSharedList = (Button)findViewById(R.id.btnCloseSharedList);
+		btnCloseSharedList.setOnClickListener(this);
 		
-		common = new Common(this);
-		filePath = getFileStreamPath(myPictureName);
-		Log.e("Realize", "filePath : " + filePath);
-
 		try {
 			Display display=((WindowManager)this.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
 		    int deviceWidth=(int)display.getWidth();
@@ -95,7 +116,7 @@ public class Realize extends Activity implements OnClickListener {
 					.getAbsolutePath()));
 			imageView.getLayoutParams().width = deviceWidth;
 			imageView.getLayoutParams().height = deviceWidth*deviceWidth / deviceHeight;
-			//imageView.setScaleType(ImageView.ScaleType.MATRIX);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -111,7 +132,14 @@ public class Realize extends Activity implements OnClickListener {
 			layoutShare.setVisibility(View.GONE);
 			break;
 		case R.id.myPictureShareBtn:
-			myPictureShare();
+			if ( isAlreadyShared == false ) {
+				myPictureShare();
+			} else {
+				getSharedListFromSameLanguage();
+			}
+			break;
+		case R.id.btnCloseSharedList:
+			layoutList.setVisibility(View.GONE);
 			break;
 		default:
 			shareApplication(v.getId());
@@ -126,14 +154,14 @@ public class Realize extends Activity implements OnClickListener {
 	private void myPictureShare() {
 		new AlertDialog.Builder(this)
 		.setIcon(R.drawable.icon)
-		.setMessage("다른사람의 사진을 보기위해서는 자신의 사진도 공유해야 합니다.")
-		.setPositiveButton("공유", new DialogInterface.OnClickListener() {
+		.setMessage(R.string.realize_share_mypicture_alert_title)
+		.setPositiveButton(R.string.realize_share_mypicture_alert_confirm, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				sharePicture();
 				return;
 			}
-		}).setNegativeButton("취소", new DialogInterface.OnClickListener() {
+		}).setNegativeButton(R.string.realize_share_mypicture_alert_cancel, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				return;
@@ -302,17 +330,17 @@ public class Realize extends Activity implements OnClickListener {
 		@Override
 		protected String doInBackground(Void... params) {
 			String jsonString = common.loadSharedPicturesList( common.getID() );
-			Log.e("Realize.java", ""+jsonString);
+			Log.e("Realize.java", "JSONSTRING : "+jsonString);
 			return jsonString;
 		}
 		
 		@Override
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
-			
+
 			if (result != "error" ) {
-				listView.setVisibility(View.VISIBLE);
 				updateView( common.getMapFromJsonString(result) );
+				layoutList.setVisibility(View.VISIBLE);
 			}
 		}
 	}
@@ -322,14 +350,10 @@ public class Realize extends Activity implements OnClickListener {
 			for ( int i = 0 ; i < list.size() ; i++ ) {
 				Map<String, Object> map = list.get(i);
 				
-//				Log.e("ListTab_map_name", map.get("name"));
-//				Log.e("ListTab_map_village", map.get("village"));
-//				Log.e("ListTab_map_subname", map.get("subname"));
-				
 				listDataArrayList.add(
 						new ListData(
 								(String)map.get("id"),
-								( (Integer)map.get("isMan") == 0 ) ? false: true,
+								( ((Double) map.get("isMan")).intValue() == 0 ) ? false: true,
 								Float.parseFloat(""+map.get("weight")),
 								(String)map.get("language")
 								));
@@ -379,11 +403,11 @@ public class Realize extends Activity implements OnClickListener {
 				row.setTag(position);
 				row.setOnClickListener(this);
 		
-				txtIsMan.setText("성별 : " + ((listData.isMan == true)? "남자" : "여자") );
-				txtWeight.setText("몸무게 : "+listData.getWeight());
-				txtLanguage.setText("언어권 : "+listData.getLanguage());
+				txtIsMan.setText(R.string.realize_shared_list_sex + ((listData.isMan() == true)? "M" : "W") );
+				txtWeight.setText(R.string.realize_shared_list_weight+ " " +listData.getWeight());
+				txtLanguage.setText(R.string.realize_shared_list_alert_language + listData.getLanguage());
 				
-				new DownloadImageTask(image).execute(listData.getImgURL());
+				new DownloadImageTask(image).execute(listData.getImageUrl());
 				//image.setImageDrawable(common.LoadImageFromWebOperations(listData.getImgURL()));
 			}
 		

@@ -111,7 +111,7 @@ public class Scale extends Activity implements OnClickListener, SensorEventListe
 		public void handleMessage(android.os.Message message) {
 			switch (message.what) {
 			case 0:
-				txtNotice.setText("측정중....");
+				txtNotice.setText(R.string.scale_calculate_now);
 				updateDecimal();
 				break;
 			case 1:
@@ -132,8 +132,7 @@ public class Scale extends Activity implements OnClickListener, SensorEventListe
 				sb.append(".");
 				sb.append(resultFloat);
 				
-				//txtNotice.setText("귀하의 몸무게는 '" + sb.toString() + "' 입니다.");
-				txtNotice.setText("정말 이걸 믿나요???\n당신은 속았습니다.\n속은게 분하다면 친구도 속이세요!!!");
+				txtNotice.setText(R.string.scale_surprise_comment);
 				Common common = new Common(Scale.this);
 			    common.saveWeight( Float.parseFloat(sb.toString()) );
 				startActivityForResult(new Intent(Scale.this, Calculate.class), RETURN_RESULT_OKAY);
