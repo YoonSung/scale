@@ -1,23 +1,9 @@
-*.war
-weight/bin/*
-weight/gen/*
+./weight/bin/*
+./weight/gen/*
 *.jar
 *.ear
 *.class
 *.dex
-# eclipse specific git ignore
-*.pydevproject
-.project
-.metadata
-bin/**
-	 tmp/**
-	 tmp/**/*
-			  *.tmp
-			  *.bak
-			  *.swp
-			  *~.nib
-			  local.properties
-			  .classpath
-			  .settings/
-			  .loadpath
-
+*.ap_
+*.apk
+R.java
