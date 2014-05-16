@@ -1,15 +1,12 @@
 package RBGroup.weight;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 import android.content.Context;
 import android.hardware.Camera;
 import android.hardware.Camera.Size;
 import android.util.Log;
-import android.view.Display;
 import android.view.SurfaceHolder;
-import android.view.WindowManager;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
 

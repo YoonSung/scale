@@ -1,6 +1,7 @@
 package RBGroup.weight;
 
 import java.util.Random;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
