@@ -14,11 +14,10 @@ public class Preview extends SurfaceView implements Callback, Camera.PictureCall
 
     private SurfaceHolder mHolder;
     private Camera mCamera = null;
-    private Context context;
     
-    public Preview(Context context) {
+	@SuppressWarnings("deprecation")
+	public Preview(Context context) {
         super(context);
-        this.context = context;
         try {
             mHolder = getHolder();
             mHolder.addCallback(this);

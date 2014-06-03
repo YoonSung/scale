@@ -8,7 +8,6 @@ import java.util.Hashtable;
 import java.util.Locale;
 import java.util.Map;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -114,8 +113,10 @@ public class Realize extends BannerActivity implements OnClickListener {
 		
 		try {
 			Display display=((WindowManager)this.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-		    int deviceWidth=(int)display.getWidth();
-		    int deviceHeight=(int)display.getHeight();
+		    @SuppressWarnings("deprecation")
+			int deviceWidth=(int)display.getWidth();
+		    @SuppressWarnings("deprecation")
+			int deviceHeight=(int)display.getHeight();
 			
 			
 			imageView.setImageDrawable(Drawable.createFromPath(filePath
@@ -127,16 +128,16 @@ public class Realize extends BannerActivity implements OnClickListener {
 			e.printStackTrace();
 		}
 		
-		FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-				FrameLayout.LayoutParams.WRAP_CONTENT,      
-				FrameLayout.LayoutParams.WRAP_CONTENT
+		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.WRAP_CONTENT,      
+				0
 		);
-
-		params.gravity = Gravity.CENTER_HORIZONTAL|Gravity.BOTTOM;
 		
-		createBanner(this, findViewById(R.id.realize_banner));
+		params.weight = 1;
+		params.gravity = Gravity.CENTER_HORIZONTAL|Gravity.BOTTOM;
+		createSmartBanner(this, findViewById(R.id.banner));
 		params.setMargins(0, 0, 0, getBannerHeight(this)+10);
-		myPictureShareBtn.setLayoutParams(params);
+		findViewById(R.id.layoutContent).setLayoutParams(params);
 	}
 
 	@Override
@@ -234,6 +235,7 @@ public class Realize extends BannerActivity implements OnClickListener {
 		@Override
 		protected void onPostExecute(Boolean isUploadRequestSuccess) {
 			super.onPostExecute(isUploadRequestSuccess);
+			progressDialog.cancel();
 			if ( !isUploadRequestSuccess ) {
 				common.centerToast(Realize.this, getResources().getString(R.string.realize_share_mypicture_upload_fail));
 			} else {
@@ -243,7 +245,6 @@ public class Realize extends BannerActivity implements OnClickListener {
 				//Network on MainThread Exception
 				getSharedListFromSameLanguage();
 			}
-			progressDialog.cancel();
 		}
 	}
 	
@@ -342,6 +343,7 @@ public class Realize extends BannerActivity implements OnClickListener {
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
+			progressDialog = ProgressDialog.show(Realize.this, "", "Wait For Seconds");
 		}
 		
 		@Override
@@ -352,10 +354,20 @@ public class Realize extends BannerActivity implements OnClickListener {
 		}
 		
 		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+			common.centerToast(Realize.this, "UnExpected Error Occur, Please Try Again");
+			progressDialog.cancel();
+		}
+		
+		@Override
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
-
-			if (result != "error" ) {
+			progressDialog.cancel();
+			if ( result == null || result.length() == 0 || result.equalsIgnoreCase("") || result == "fail" || result == "false") {
+				common.centerToast(Realize.this, "UnExpected Error Occur, Please Try Again");
+			}  else {
+				isAlreadyShared = true;
 				updateView( common.getMapFromJsonString(result) );
 				layoutList.setVisibility(View.VISIBLE);
 			}
@@ -363,6 +375,8 @@ public class Realize extends BannerActivity implements OnClickListener {
 	}
 	
 	public void updateView ( ArrayList<Map<String, Object>> list) {
+		listDataArrayList.clear();
+		
 		if (list != null ) {
 			for ( int i = 0 ; i < list.size() ; i++ ) {
 				Map<String, Object> map = list.get(i);
@@ -385,7 +399,6 @@ public class Realize extends BannerActivity implements OnClickListener {
 	private class ListTabAdapter extends ArrayAdapter<ListData> implements OnClickListener {
 
 		private ArrayList<ListData> items;
-		private Common common;
 		private ListData listData;
 		//BookListData k;
 
@@ -393,7 +406,6 @@ public class Realize extends BannerActivity implements OnClickListener {
 				ArrayList<ListData> items) {
 			super(context, textViewResourceId, items);
 			this.items = items;
-			this.common = Realize.this.common;
 		}
 
 		@Override
@@ -419,17 +431,17 @@ public class Realize extends BannerActivity implements OnClickListener {
 				
 				row.setTag(position);
 				row.setOnClickListener(this);
-		
-				txtIsMan.setText(R.string.realize_shared_list_sex + ((listData.isMan() == true)? "M" : "W") );
-				txtWeight.setText(R.string.realize_shared_list_weight+ " " +listData.getWeight());
-				txtLanguage.setText(R.string.realize_shared_list_alert_language + listData.getLanguage());
+				
+				txtIsMan.setText(getResources().getString(R.string.realize_shared_list_sex ) + ((listData.isMan() == true)? "M" : "W") );
+				txtWeight.setText(getResources().getString(R.string.realize_shared_list_weight )+ " " +listData.getWeight());
+				txtLanguage.setText(getResources().getString(R.string.realize_shared_list_alert_language ) + listData.getLanguage());
 				
 				new DownloadImageTask(image).execute(listData.getImageUrl());
 				//image.setImageDrawable(common.LoadImageFromWebOperations(listData.getImgURL()));
 			}
-		
 			return view;
 		}
+		
 		private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
 			  ImageView bmImage;
 		

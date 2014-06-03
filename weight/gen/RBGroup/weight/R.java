@@ -16,6 +16,18 @@ public final class R {
         /**  template 
     <string name="realize_share_mypicture_alert_"></string> 
     
+ template 
+    <string name="realize_share_mypicture_alert_"></string> 
+    
+ template 
+    <string name="realize_share_mypicture_alert_"></string> 
+    
+ template 
+    <string name="realize_share_mypicture_alert_"></string> 
+    
+ template 
+    <string name="realize_share_mypicture_alert_"></string> 
+    
          */
         public static final int height=0x7f0b0000;
     }
@@ -442,6 +454,7 @@ containing a value of this type.
         public static final int yellow_btn=0x7f020037;
     }
     public static final class id {
+        public static final int banner=0x7f070035;
         public static final int book_now=0x7f070010;
         public static final int btnCloseSharedList=0x7f070034;
         public static final int btnExit=0x7f07002d;
@@ -451,7 +464,7 @@ containing a value of this type.
         public static final int btnShareKakao=0x7f07002f;
         public static final int btnShareKakaoStory=0x7f070030;
         public static final int btnShareTwitter=0x7f070031;
-        public static final int btnStart=0x7f070038;
+        public static final int btnStart=0x7f070039;
         public static final int buyButton=0x7f07000a;
         public static final int buy_now=0x7f07000f;
         public static final int buy_with_google=0x7f07000e;
@@ -467,10 +480,11 @@ containing a value of this type.
         public static final int holo_dark=0x7f070005;
         public static final int holo_light=0x7f070006;
         public static final int hybrid=0x7f070004;
-        public static final int imgDecimal=0x7f070035;
-        public static final int imgFloat=0x7f070037;
-        public static final int imgUnit=0x7f070036;
+        public static final int imgDecimal=0x7f070036;
+        public static final int imgFloat=0x7f070038;
+        public static final int imgUnit=0x7f070037;
         public static final int initialset_banner=0x7f070021;
+        public static final int layoutContent=0x7f070028;
         public static final int layoutList=0x7f070032;
         public static final int layoutShare=0x7f07002c;
         public static final int listtab_custom_image=0x7f070023;
@@ -490,16 +504,15 @@ containing a value of this type.
         public static final int rdoGroup=0x7f07001c;
         public static final int rdoMan=0x7f07001d;
         public static final int rdoWoman=0x7f07001e;
-        public static final int realize_banner=0x7f070028;
         public static final int sandbox=0x7f070008;
         public static final int satellite=0x7f070002;
-        public static final int scale_banner=0x7f07003a;
+        public static final int scale_banner=0x7f07003b;
         public static final int selectionDetails=0x7f07000b;
         public static final int spinner=0x7f07001f;
         public static final int strict_sandbox=0x7f070009;
         public static final int terrain=0x7f070003;
         public static final int txtNext=0x7f07001a;
-        public static final int txtNotice=0x7f070039;
+        public static final int txtNotice=0x7f07003a;
         public static final int wrap_content=0x7f07000d;
     }
     public static final class integer {

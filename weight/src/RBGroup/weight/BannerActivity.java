@@ -2,7 +2,6 @@ package RBGroup.weight;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -44,8 +43,14 @@ public class BannerActivity extends Activity {
 
 		// Create an ad request. Check logcat output for the hashed device ID to
 		// get test ads on a physical device.
-		AdRequest adRequest = new AdRequest.Builder().addTestDevice(
-				"AAC7FF0E7DDE44E4EBFA1CB87486AC6E").build();
+		AdRequest adRequest = new AdRequest.Builder()
+				.addTestDevice("AAC7FF0E7DDE44E4EBFA1CB87486AC6E")
+				.addTestDevice("F6013E8E6D5F3F7052A5BB43C1B64A69").build();
+		
+		//종기형
+		//AdRequest.Builder.addTestDevice("F6013E8E6D5F3F7052A5BB43C1B64A69")
+		
+		//윤성
 		// 06-03 13:18:28.659: I/Ads(5293): Use
 		// AdRequest.Builder.addTestDevice("AAC7FF0E7DDE44E4EBFA1CB87486AC6E")
 		// to get test ads on this device.

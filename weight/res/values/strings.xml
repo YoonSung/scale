@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">체중계</string>
-    <string name="title_splash">내 몸무게는?</string>
-    <string name="spinner_initialset">몸무게를 선택해 주세요</string>
-    <string name="spinner_txt_initialset">키</string>
-    <string name="checkbox_man_initialset">남자</string>
-    <string name="checkbox_woman_initialset">여자</string>
-    <string name="checkbox_txt_initialset">성별</string>
-    <string name="button_initialset">몸무게 측정 시작</string>
-    <string name="text_example">정확한 측정을 위해서 다음과 같이 스마트폰을 위치시켜 주세요</string>
-    <string name="text_example_next_step">화면을 터치하면 측정화면으로 이동합니다</string>
+    <string name="app_name">Scale</string>
+    <string name="title_splash">how about my weight?</string>
+    <string name="spinner_initialset">Height</string>
+    <string name="spinner_txt_initialset">Height</string>
+    <string name="checkbox_man_initialset">Male</string>
+    <string name="checkbox_woman_initialset">Female</string>
+    <string name="checkbox_txt_initialset">Gender</string>
+    <string name="button_initialset">Weight measurement start</string>
+    <string name="text_example">Please put the smartphone in the following manner \nfor accurate measurement.</string>
+    <string name="text_example_next_step">Takes you to the page where you can measure your weight \nif you touch the screen of a smartphone.</string>
     
     
-    <string name="scale_calculate_start">몸무게 측정 시작</string>
-	<string name="scale_calculate_text">설마..\n이게 정말 가능하다고 생각했나요?? ㅋㅋ</string>
-    <string name="scale_calculate_now">측정중....</string>
-    <string name="scale_surprise_comment">정말 이걸 믿나요???\n당신은 속았습니다.\n속은게 분하다면 친구도 속이세요!!!</string>
+    <string name="scale_calculate_start">Start measuring</string>
+	<string name="scale_calculate_text">Did you think\ncan be measured\nin body weight really?</string>
+    <string name="scale_calculate_now">measuring.....</string>
+    <string name="scale_surprise_comment">cheat your friends now</string>
     
 	
-    <string name="realize_share_text">다른 사람들과 공유 하세요</string>
-    <string name="realize_share_app_btn">공유하기</string>
-    <string name="realize_share_app_text_title">친구들에게 어플추천하기</string>
-    <string name="realize_share_app_text">[몸무게 재는 어플]\n집에서 쉽게 몸무게를 측정하세요.\n친구와 함께하면\n더욱 정확해 집니다.</string>
-    <string name="realize_share_mypicture_btn">된다고 믿은 사람들 보기</string>
-    <string name="realize_share_kakaotalk_not_install">카카오톡이 설치되어있지 않습니다</string>
-    <string name="realize_share_kakaoStory_not_install">카카오스토리가 설치되어있지 않습니다</string>
-    <string name="realize_share_mypicture_upload_fail">파일업로드에 실패하였습니다.\n잠시후 다시 시도해 주세요</string>
-    <string name="realize_share_mypicture_uploading">사진 업로드 중입니다.\n잠시만 기다려주세요</string>
-    <string name="realize_share_mypicture_alert_title">다른사람의 사진을 보기위해서는 자신의 사진도 공유해야 합니다.</string>
-    <string name="realize_share_mypicture_alert_confirm">공유</string>
-    <string name="realize_share_mypicture_alert_cancel">취소</string>
+    <string name="realize_share_text">It must also share the application in order to see the photos of others.</string>
+    <string name="realize_share_app_btn">Share</string>
+    <string name="realize_share_app_text_title">Recommend</string>
+    <string name="realize_share_app_text">Let\'s measure the weight\neasily with smartphone\nIt will be more accurate\nif with a friend</string>
+    <string name="realize_share_mypicture_btn">see the silly\'s</string>
+    <string name="realize_share_kakaotalk_not_install">Kakaotalk is not installed</string>
+    <string name="realize_share_kakaoStory_not_install">Kakaostory is not installed</string>
+    <string name="realize_share_mypicture_upload_fail">uploading failed.\ntry again</string>
+    <string name="realize_share_mypicture_uploading">uploading....</string>
+    <string name="realize_share_mypicture_alert_title">It must also share their photos\nin order to see \nthe photos of others.</string>
+    <string name="realize_share_mypicture_alert_confirm">Share</string>
+    <string name="realize_share_mypicture_alert_cancel">Cancel</string>
     
-    <string name="realize_shared_list_sex">성별 : </string>
-    <string name="realize_shared_list_weight">몸무게 : </string>
-    <string name="realize_shared_list_alert_language">언어권 : </string>
+    <string name="realize_shared_list_sex">Gender : </string>
+    <string name="realize_shared_list_weight">weight : </string>
+    <string name="realize_shared_list_alert_language">Language : </string>
     
-    <string name="realize_close_sharedlist_btn">내사진 보기</string>
+    <string name="realize_close_sharedlist_btn">my picture</string>
 
     <!-- template 
     <string name="realize_share_mypicture_alert_"></string> 
