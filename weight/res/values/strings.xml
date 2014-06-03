@@ -35,11 +35,12 @@
     <string name="realize_shared_list_sex">성별 : </string>
     <string name="realize_shared_list_weight">몸무게 : </string>
     <string name="realize_shared_list_alert_language">언어권 : </string>
+    
+    <string name="realize_close_sharedlist_btn">내사진 보기</string>
+
     <!-- template 
     <string name="realize_share_mypicture_alert_"></string> 
     -->
-    
-    <string name="realize_close_sharedlist_btn">내사진 보기</string>
 
     <string-array name="height">
         <item>150</item>

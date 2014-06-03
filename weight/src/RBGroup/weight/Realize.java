@@ -23,6 +23,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -37,7 +38,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class Realize extends Activity implements OnClickListener {
+public class Realize extends BannerActivity implements OnClickListener {
 
 	//default layout
 	ImageView imageView;
@@ -72,15 +73,20 @@ public class Realize extends Activity implements OnClickListener {
 		//Check Already Share Picture
 		//네트워크 요청 후 Path정보를 가져온뒤, File이 존재하는지 체크한다.
 	    if ( common.getID() != null ) {
-    		this.isAlreadyShared = filePath.exists();
-    		
+	    	
+	    	//TODO check is valid process
+    		//this.isAlreadyShared = filePath.exists();
+	    	this.isAlreadyShared = true;
+	    	
     		Log.e("Realize", "isAlreadyShared : " + isAlreadyShared);
+    		
+    		//
+    		if ( isAlreadyShared == false ) {
+    			startActivity(new Intent(Realize.this, InitialSet.class));
+    			finish();
+    		}
 	    }
 		
-	    if ( isAlreadyShared == false ) {
-	    	startActivity(new Intent(Realize.this, InitialSet.class));
-	    	finish();
-	    }
 		
 	    
 		imageView = (ImageView) findViewById(R.id.myPicture);
@@ -120,6 +126,17 @@ public class Realize extends Activity implements OnClickListener {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+				FrameLayout.LayoutParams.WRAP_CONTENT,      
+				FrameLayout.LayoutParams.WRAP_CONTENT
+		);
+
+		params.gravity = Gravity.CENTER_HORIZONTAL|Gravity.BOTTOM;
+		
+		createBanner(this, findViewById(R.id.realize_banner));
+		params.setMargins(0, 0, 0, getBannerHeight(this)+10);
+		myPictureShareBtn.setLayoutParams(params);
 	}
 
 	@Override

@@ -1,15 +1,15 @@
 package RBGroup.weight;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-public class Example extends Activity {
+public class Example extends BannerActivity {
 
 	Handler myTask;
 	boolean isClicked = false;
@@ -28,6 +28,17 @@ public class Example extends Activity {
 				isClicked = true;
 			}
 		});
+		
+		FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+				FrameLayout.LayoutParams.WRAP_CONTENT,      
+				FrameLayout.LayoutParams.WRAP_CONTENT
+		);
+
+		params.gravity = Gravity.CENTER_HORIZONTAL|Gravity.BOTTOM;
+		
+		createSmartBanner(this, findViewById(R.id.example_banner));
+		params.setMargins(0, 0, 0, getBannerHeight(this)+10);
+		txtNext.setLayoutParams(params);
 		
 	    myTask=new Handler(){
     		public void handleMessage(android.os.Message message){

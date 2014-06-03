@@ -13,7 +13,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 
-public class InitialSet extends Activity implements OnClickListener, OnItemSelectedListener{
+public class InitialSet extends BannerActivity implements OnClickListener, OnItemSelectedListener{
 
 	private Spinner spinner;
 	private RadioGroup rdoGroup;
@@ -42,6 +42,8 @@ public class InitialSet extends Activity implements OnClickListener, OnItemSelec
 	    
 	    btnNext.setOnClickListener(this);
 	    spinner.setOnItemSelectedListener(this);
+	    
+	    createSmartBanner(this, findViewById(R.id.initialset_banner));
 	}
 
 	@Override

@@ -27,8 +27,8 @@ import com.google.gson.reflect.TypeToken;
 public class Common {
 
 	//public static final String ROOT_PATH = "http://192.168.1.130:8080";
-	//public static final String ROOT_PATH = "http://54.178.137.153:8080";
-	public static final String ROOT_PATH = "http://10.73.43.226:8080";
+	public static final String ROOT_PATH = "http://54.178.137.153:8080";
+	//public static final String ROOT_PATH = "http://10.73.43.226:8080";
 	private final String lineEnd = "\r\n";
 	private final String twoHyphens = "--";
 	private final String boundary = "*****";
