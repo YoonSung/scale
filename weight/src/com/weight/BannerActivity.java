@@ -1,4 +1,4 @@
-package RBGroup.weight;
+package com.weight;
 
 import android.app.Activity;
 import android.content.Context;

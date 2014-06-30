@@ -1,5 +1,6 @@
-package RBGroup.weight;
+package com.weight;
 
+import com.weight.R;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;

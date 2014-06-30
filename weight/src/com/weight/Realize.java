@@ -1,4 +1,4 @@
-package RBGroup.weight;
+package com.weight;
 
 import java.io.File;
 import java.io.InputStream;
@@ -8,6 +8,7 @@ import java.util.Hashtable;
 import java.util.Locale;
 import java.util.Map;
 
+import com.weight.R;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -30,12 +31,14 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class Realize extends BannerActivity implements OnClickListener {
 
@@ -49,8 +52,9 @@ public class Realize extends BannerActivity implements OnClickListener {
 
 	// shareApplication
 	FrameLayout layoutShare;
-	ImageButton btnShareFacebook, btnShareKakao, btnShareKakaoStory, btnExit;
-
+	ImageButton btnShareFacebook, btnShareTwitter, btnShareKakao, btnShareKakaoStory, btnExit;
+	EditText edtShareComment;
+	
 	// sharedList
 	private ArrayList<ListData> listDataArrayList = new ArrayList<ListData>();
 	private ListView listView; 
@@ -96,13 +100,16 @@ public class Realize extends BannerActivity implements OnClickListener {
 		layoutShare = (FrameLayout) findViewById(R.id.layoutShare);
 		btnExit = (ImageButton) findViewById(R.id.btnExit);
 		btnShareFacebook = (ImageButton) findViewById(R.id.btnShareFacebook);
+		btnShareTwitter = (ImageButton) findViewById(R.id.btnShareTwitter);
 		btnShareKakao = (ImageButton) findViewById(R.id.btnShareKakao);
 		btnShareKakaoStory = (ImageButton) findViewById(R.id.btnShareKakaoStory);
-
+		edtShareComment = (EditText)findViewById(R.id.edtShareComment);
+		
 		btnShare.setOnClickListener(this);
 		btnExit.setOnClickListener(this);
 		myPictureShareBtn.setOnClickListener(this);
 		btnShareFacebook.setOnClickListener(this);
+		btnShareTwitter.setOnClickListener(this);
 		btnShareKakao.setOnClickListener(this);
 		btnShareKakaoStory.setOnClickListener(this);
 
@@ -252,8 +259,9 @@ public class Realize extends BannerActivity implements OnClickListener {
 	/************************************************************************************/
 	
 	private void shareApplication(int resourceID) {
-		String message = getResources().getString(R.string.realize_share_app_text);
-		String referenceURLString = "https://market.android.com/details?hl=ko&id=com.DooitLocalResearch";
+		String message = edtShareComment.getText().toString();
+		//getResources().getString(R.string.realize_share_app_text);
+		String referenceURLString = "https://market.android.com/details?id=com.weight";
 		String appVersion = "1.0";
 		String recommendURL = null;
 
@@ -264,12 +272,12 @@ public class Realize extends BannerActivity implements OnClickListener {
 				metaInfoAndroid.put("os", "android");
 				metaInfoAndroid.put("devicetype", "phone");
 				metaInfoAndroid.put("installurl",
-						"market://details?id=com.DooitLocalResearch");
+						"market://details?id=com.weight");
 				metaInfoAndroid.put("executeurl",
-						"market://details?id=com.DooitLocalResearch");
+						"market://details?id=com.weight");
 				arrMetaInfo.add(metaInfoAndroid);
-				KakaoLink link = new KakaoLink(this, "www.dooit.co.kr",
-						referenceURLString, appVersion, message, "test",
+				KakaoLink link = new KakaoLink(this, "https://play.google.com/store/apps/details?id=com.weight",
+						referenceURLString, appVersion, message, "Digital Weight Scale",
 						arrMetaInfo, "UTF-8");
 				
 				if (link.isAvailable()) {
@@ -282,21 +290,26 @@ public class Realize extends BannerActivity implements OnClickListener {
 			}
 		} else if ( resourceID == R.id.btnShareKakaoStory) {
 			try {
-				requestShareKakaoLink();
+				requestShareKakaoLink(message, recommendURL);
 			} catch (NameNotFoundException e) {
 				e.printStackTrace();
 			}
 		} else {
 			switch (resourceID) {
 			case R.id.btnShareTwitter:
-				recommendURL = "http://twitter.com/home?status=" + message
-						+ "test : \"" + referenceURLString;
+				recommendURL = "https://twitter.com/intent/tweet?source=webclient&text="
+											+message
+											+"&url="+referenceURLString;
+					
+//				recommendURL = "http://twitter.com/home?status=" + edtShareComment.getText().toString()
+//						+ "Download : \"" + referenceURLString;
 				break;
 			case R.id.btnShareFacebook:
-				recommendURL = "http://www.facebook.com/sharer/sharer.php?s=100&p[url]="
-						+ referenceURLString
-						+ "&p[images][0]=http://dooit.co.kr/include/img/dooit/btn_main01.gif&p[title]="
-						+ message;
+				recommendURL = "https://www.facebook.com/sharer/sharer.php?u="+referenceURLString;
+//				recommendURL = "http://www.facebook.com/sharer/sharer.php?s=100&p[url]="
+//						+ referenceURLString
+//						+ "&p[images][0]=http://dooit.co.kr/include/img/dooit/btn_main01.gif&p[title]="
+//						+ message;
 				break;
 			}
 			startActivity(new Intent(Intent.ACTION_VIEW,
@@ -304,11 +317,13 @@ public class Realize extends BannerActivity implements OnClickListener {
 		}
 	}
 
-	private void requestShareKakaoLink() throws NameNotFoundException {
+	private void requestShareKakaoLink(String message, String referenceURL) throws NameNotFoundException {
 		Map<String, Object> urlInfoAndroid = new Hashtable<String, Object>(1);
-		urlInfoAndroid.put("title", "(광해) 실제 역사적 진실은?");
-		urlInfoAndroid.put("desc", "(광해 왕이 된 남자)의 역사성 부족을 논하다.");
-		urlInfoAndroid.put("imageurl", new String[] {"http://m1.daumcdn.net/photo-media/201209/27/ohmynews/R_430x0_20120927141307222.jpg"});
+		urlInfoAndroid.put("title", "Digital Weight Scale");
+		urlInfoAndroid.put("desc", message);
+		//urlInfoAndroid.put("url", referenceURL);
+		//urlInfoAndroid.put("imageurl", new String[] {"http://m1.daumcdn.net/photo-media/201209/27/ohmynews/R_430x0_20120927141307222.jpg"});
+		
 		urlInfoAndroid.put("type", "article");
 
 		// Recommended: Use application context for parameter.
@@ -330,10 +345,10 @@ public class Realize extends BannerActivity implements OnClickListener {
 		 * @param urlInfoArray
 		 */
 		storyLink.openKakaoLink(this, 
-				"내용 http://m.media.daum.net/entertain/enews/view?newsid=20120927110708426",
+				message,
 				getPackageName(), 
 				getPackageManager().getPackageInfo(getPackageName(), 0).versionName, 
-				"미디어디음",
+				"한글입니다",
 				"UTF-8", 
 				urlInfoAndroid);
 	}
@@ -444,7 +459,7 @@ public class Realize extends BannerActivity implements OnClickListener {
 		
 		private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
 			  ImageView bmImage;
-		
+			  
 			  public DownloadImageTask(ImageView bmImage) {
 			      this.bmImage = bmImage;
 			  }
@@ -465,11 +480,10 @@ public class Realize extends BannerActivity implements OnClickListener {
 			  protected void onPostExecute(Bitmap result) {
 			      bmImage.setImageBitmap(result);
 			  }
-			}
+		}
 		
 		@Override
 		public void onClick(View v) {
-			
 		}
 	}
 }

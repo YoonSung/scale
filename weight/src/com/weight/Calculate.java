@@ -1,4 +1,4 @@
-package RBGroup.weight;
+package com.weight;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;

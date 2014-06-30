@@ -1,7 +1,8 @@
-package RBGroup.weight;
+package com.weight;
 
 import java.util.Random;
 
+import com.weight.R;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.hardware.Sensor;
