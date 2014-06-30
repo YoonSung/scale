@@ -45,8 +45,10 @@ public class BannerActivity extends Activity {
 		// get test ads on a physical device.
 		AdRequest adRequest = new AdRequest.Builder()
 				.addTestDevice("AAC7FF0E7DDE44E4EBFA1CB87486AC6E")
-				.addTestDevice("F6013E8E6D5F3F7052A5BB43C1B64A69").build();
-		
+				.addTestDevice("F6013E8E6D5F3F7052A5BB43C1B64A69")
+				.addTestDevice("4FD0C68452580875678E2BB356748459")
+				.build();
+
 		//종기형
 		//AdRequest.Builder.addTestDevice("F6013E8E6D5F3F7052A5BB43C1B64A69")
 		

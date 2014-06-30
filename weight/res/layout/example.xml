@@ -17,6 +17,8 @@
         android:text="@string/text_example"
         android:textColor="#000"
         android:textSize="15sp"
+        android:background="#FFFF00"
+        android:padding="15px"
         android:textStyle="bold" />
 
     <TextView
