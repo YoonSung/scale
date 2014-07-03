@@ -12,14 +12,10 @@ import android.graphics.BitmapFactory;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.WindowManager;
 
-public class Calculate extends Activity {
+public class SnapShot extends Activity {
 
-	private Preview preview;
-	private final String myPictureName = "weight.png";
-	
-	Handler handler = new Handler(){
+	private final class HandlerExtension extends Handler {
 		public void handleMessage(android.os.Message msg) {
 			if(msg.what==0){
 				preview.Capture(new Camera.PictureCallback() {
@@ -33,7 +29,7 @@ public class Calculate extends Activity {
 						String filePath = getApplicationContext().getFilesDir().getPath();
 						//Uri saveFile = FileUtil.getTemporaryFileName();
 						//경로 기반으로 파일 인스턴스 생성
-						File file = new File(filePath + File.separator + myPictureName);
+						File file = new File(filePath + File.separator + PICTURENAME);
 						OutputStream out = null;
 						 
 						try {
@@ -41,11 +37,11 @@ public class Calculate extends Activity {
 						    file.createNewFile();
 						    out = new FileOutputStream(file);
 						    //비트맵 이미지를 압축하면서 스트림으로 보냄
-						    if (bitmap.compress(Bitmap.CompressFormat.JPEG, 85, out)) {
-						 
+						    
+						    //bitmap.compress(Bitmap.CompressFormat.PNG, 85, out);
+						    if (bitmap.compress(Bitmap.CompressFormat.PNG, 85, out)) {
+						    	new Common(SnapShot.this).saveAndReturnID();
 						    }
-						    //저장된 이미지를 화면에 표시(메소드를 만들어야 함)
-						    //onSetImage(saveFile.toString());
 						}
 						catch (Exception e) {
 						    e.printStackTrace();
@@ -53,7 +49,7 @@ public class Calculate extends Activity {
 						finally {
 						    try {
 						        out.close();
-						 
+						        in.close();
 						    }
 						    catch (IOException e) {
 						        e.printStackTrace();
@@ -64,17 +60,20 @@ public class Calculate extends Activity {
 					}
 				});		
 			}else if(msg.what==1){
-//				Intent intent = new Intent(Calculate.this, Realize.class);
-//				startActivity(intent);
 				finish();
 			}
-		};
-	};
+		}
+	}
+
+	private Preview preview;
+	private final String PICTURENAME = "weight.png";
+	
+	Handler handler = new HandlerExtension();
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
-	    getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+	    //getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 	    preview = new Preview(this);
 	    
 	    setContentView(preview);

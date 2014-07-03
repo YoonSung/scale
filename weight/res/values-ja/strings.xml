@@ -12,13 +12,14 @@
     <string name="text_example">正確な測定のため次のようにスマホを置いてください</string>
     <string name="text_example_next_step">スマホの画面をタッチしたら体重を測定できるページに移動します</string>
     
-    
+    <string name="scale_notice_warn">携帯電話を水平に置いてください</string>
+    <string name="scale_notice_restart">測定中は機器を動かさないでください\ n最初から再起動してください</string>
     <string name="scale_calculate_start">体重測定スタート</string>
 	<string name="scale_calculate_text">まさか体重を測定できると思いましたか？</string>
     <string name="scale_calculate_now">測定中....</string>
     <string name="scale_surprise_comment">本当にこれを信じるんですか？\nあなたは騙されました.\n騙されたのが悔しいならあなたの友達も誤魔化して見てください</string>
     
-	
+	<string name="realize_wait">しばらくお待ちください</string>
     <string name="realize_share_text">他人の写真を見るためには自分の写真もシェアしなければなりません</string>
     <string name="realize_share_app_btn">シェア</string>
     <string name="realize_share_app_text_title">友達に推奨する</string>

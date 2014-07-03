@@ -47,6 +47,8 @@ public class BannerActivity extends Activity {
 				.addTestDevice("AAC7FF0E7DDE44E4EBFA1CB87486AC6E")
 				.addTestDevice("F6013E8E6D5F3F7052A5BB43C1B64A69")
 				.addTestDevice("4FD0C68452580875678E2BB356748459")
+				//성환형
+				.addTestDevice("7E9A23C5EB5482DAF632597648C4CC83")
 				.build();
 
 		//종기형

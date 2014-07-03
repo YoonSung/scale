@@ -28,6 +28,7 @@ public class Common {
 
 	//public static final String ROOT_PATH = "http://192.168.1.130:8080";
 	public static final String ROOT_PATH = "http://54.178.137.153:8080";
+	static String SYSTEM_FILE_PATH;
 	//public static final String ROOT_PATH = "http://10.73.43.226:8080";
 	private final String lineEnd = "\r\n";
 	private final String twoHyphens = "--";
@@ -282,6 +283,14 @@ public class Common {
 		return readFloatPreference("weight");
 	}
 
+	boolean isAlreadyShared() {
+		return readBooleanPreference("isAlreadyShared");
+	}
+	
+	void saveIsShared() {
+		savePreference("isAlreadyShared", true);
+	}
+	
 	private void savePreference(String key, String value) {
 		editor.putString(key, value);
 		editor.commit();

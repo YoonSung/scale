@@ -8,7 +8,6 @@ import java.util.Hashtable;
 import java.util.Locale;
 import java.util.Map;
 
-import com.weight.R;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -38,15 +37,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class Realize extends BannerActivity implements OnClickListener {
 
 	//default layout
 	ImageView imageView;
+	//TODO Constants리팩토링
 	private final String myPictureName = "weight.png";
 	Common common;
-	File filePath;
+	File file;
 	ProgressDialog progressDialog;
 	Button btnShare, myPictureShareBtn;
 
@@ -70,21 +69,23 @@ public class Realize extends BannerActivity implements OnClickListener {
 		setContentView(R.layout.realize);
 
 		common = new Common(this);
-		filePath = getFileStreamPath(myPictureName);
-		Log.e("Realize", "filePath : " + filePath);
+		file = getFileStreamPath(myPictureName);
+		Log.e("Realize", "filePath : " + file);
 		
 		//Check Already Share Picture
 		//네트워크 요청 후 Path정보를 가져온뒤, File이 존재하는지 체크한다.
 	    if ( common.getID() != null ) {
 	    	
+	    	boolean isFileExists = file.exists();
 	    	//TODO check is valid process
-    		//this.isAlreadyShared = filePath.exists();
-	    	this.isAlreadyShared = true;
+    		this.isAlreadyShared = ( isFileExists == true && common.isAlreadyShared() == true);
+	    	//this.isAlreadyShared = true;
 	    	
     		Log.e("Realize", "isAlreadyShared : " + isAlreadyShared);
+    		Log.e("Realize", "isFileExists : " + isFileExists);
     		
-    		//
-    		if ( isAlreadyShared == false ) {
+    		//만약 공유한 내용이 존재하지 않으면
+    		if ( isFileExists == false ) {
     			startActivity(new Intent(Realize.this, InitialSet.class));
     			finish();
     		}
@@ -126,7 +127,7 @@ public class Realize extends BannerActivity implements OnClickListener {
 			int deviceHeight=(int)display.getHeight();
 			
 			
-			imageView.setImageDrawable(Drawable.createFromPath(filePath
+			imageView.setImageDrawable(Drawable.createFromPath(file
 					.getAbsolutePath()));
 			imageView.getLayoutParams().width = deviceWidth;
 			imageView.getLayoutParams().height = deviceWidth*deviceWidth / deviceHeight;
@@ -214,11 +215,11 @@ public class Realize extends BannerActivity implements OnClickListener {
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			this.id = common.saveAndReturnID();
+			this.id = common.getID();
 			this.weight = common.getWeight();
 			this.isMan = common.getSexInfoIsMan();
-			this.filePath = Realize.this.filePath.getAbsolutePath();
-			progressDialog = ProgressDialog.show(Realize.this, "", "Wait For Seconds");
+			this.filePath = Realize.this.file.getAbsolutePath();
+			progressDialog = ProgressDialog.show(Realize.this, "", getResources().getString(R.string.realize_wait));
 		}
 		
 		@Override
@@ -290,7 +291,7 @@ public class Realize extends BannerActivity implements OnClickListener {
 			}
 		} else if ( resourceID == R.id.btnShareKakaoStory) {
 			try {
-				requestShareKakaoLink(message, recommendURL);
+				requestShareKakaoLink(message, referenceURLString);
 			} catch (NameNotFoundException e) {
 				e.printStackTrace();
 			}
@@ -317,7 +318,7 @@ public class Realize extends BannerActivity implements OnClickListener {
 		}
 	}
 
-	private void requestShareKakaoLink(String message, String referenceURL) throws NameNotFoundException {
+	private void requestShareKakaoLink(String message, String referenceURLString) throws NameNotFoundException {
 		Map<String, Object> urlInfoAndroid = new Hashtable<String, Object>(1);
 		urlInfoAndroid.put("title", "Digital Weight Scale");
 		urlInfoAndroid.put("desc", message);
@@ -344,11 +345,14 @@ public class Realize extends BannerActivity implements OnClickListener {
 		 * @param encoding
 		 * @param urlInfoArray
 		 */
-		storyLink.openKakaoLink(this, 
-				message,
+		storyLink.openKakaoLink(this,
+				//"내용 http://m.media.daum.net/entertain/enews/view?newsid=20120927110708426",
+				message+" "+referenceURLString,//+" http://m.media.daum.net/entertain/enews/view?newsid=20120927110708426",
+				//message,
 				getPackageName(), 
-				getPackageManager().getPackageInfo(getPackageName(), 0).versionName, 
-				"한글입니다",
+				getPackageManager().getPackageInfo(getPackageName(), 0).versionName,
+				"Scale",
+				//"한글입니다",
 				"UTF-8", 
 				urlInfoAndroid);
 	}
@@ -424,8 +428,7 @@ public class Realize extends BannerActivity implements OnClickListener {
 		}
 
 		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			View view = convertView;
+		public View getView(int position, View view, ViewGroup parent) {
 			if (view == null) {
 				LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 				view = vi.inflate(R.layout.list_tab_cell, null);

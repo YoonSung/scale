@@ -12,13 +12,14 @@
     <string name="text_example">Please put the smartphone in the following manner \nfor accurate measurement.</string>
     <string name="text_example_next_step">Takes you to the page where you can measure your weight \nif you touch the screen of a smartphone.</string>
     
-    
+    <string name="scale_notice_restart">Do not move the device during measurement\nPlease start again from the beginning</string>
+    <string name="scale_notice_warn">Please put your phone horizontally</string>
     <string name="scale_calculate_start">Start measuring</string>
 	<string name="scale_calculate_text">Did you think\ncan be measured\nin body weight really?</string>
     <string name="scale_calculate_now">measuring.....</string>
     <string name="scale_surprise_comment">cheat your friends now</string>
     
-	
+	<string name="realize_wait">Please wait</string>
     <string name="realize_share_text">It must also share the application in order to see the photos of others.</string>
     <string name="realize_share_app_btn">Share</string>
     <string name="realize_share_app_text_title">Recommend</string>

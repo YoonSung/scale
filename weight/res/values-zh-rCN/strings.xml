@@ -12,13 +12,14 @@
     <string name="text_example">点击画面自动移动为测定画面</string>
     <string name="text_example_next_step">点击画面自动移动为测定画面</string>
     
-    
+    <string name="scale_notice_warn">请把你的手机横向</string>
+    <string name="scale_notice_restart">测量时，请勿移动设备从头开始回</string>
     <string name="scale_calculate_start">开始测定体重</string>
 	<string name="scale_calculate_text">真的相信能测定吗？</string>
     <string name="scale_calculate_now">测量....</string>
     <string name="scale_surprise_comment">骗你的朋友现在</string>
     
-	
+	<string name="realize_wait">请稍候</string>
     <string name="realize_share_text">为了想看其它人照片 自己照片也要共享</string>
     <string name="realize_share_app_btn">シェア</string>
     <string name="realize_share_app_text_title">推荐</string>

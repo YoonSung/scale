@@ -12,13 +12,15 @@
     <string name="text_example">정확한 측정을 위해서 다음과 같이 스마트폰을 위치시켜 주세요</string>
     <string name="text_example_next_step">화면을 터치하면 측정화면으로 이동합니다</string>
     
-    
+    <string name="scale_notice_warn">휴대폰을 수평으로 놓아주세요</string>
+    <string name="scale_notice_restart">측정중에는 기기를 움직이면 안됩니다\n처음부터 다시 시작해주세요</string>
     <string name="scale_calculate_start">몸무게 측정 시작</string>
 	<string name="scale_calculate_text">설마..\n이게 정말 가능하다고 생각했나요?? ㅋㅋ</string>
     <string name="scale_calculate_now">측정중....</string>
     <string name="scale_surprise_comment">정말 이걸 믿나요???\n당신은 속았습니다.\n속은게 분하다면 친구도 속이세요!!!</string>
     
 	
+    <string name="realize_wait">잠시만 기다려주세요</string>
     <string name="realize_share_text">다른 사람들과 공유 하세요</string>
     <string name="realize_share_app_btn">공유하기</string>
     <string name="realize_share_app_text_title">친구들에게 어플추천하기</string>
