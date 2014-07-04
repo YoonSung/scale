@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -37,6 +38,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class Realize extends BannerActivity implements OnClickListener {
 
@@ -48,7 +50,12 @@ public class Realize extends BannerActivity implements OnClickListener {
 	File file;
 	ProgressDialog progressDialog;
 	Button btnShare, myPictureShareBtn;
-
+	int toastWidth;
+	int toastHeight;
+	
+	Toast toast;
+	ImageView toastImageView;
+	
 	// shareApplication
 	FrameLayout layoutShare;
 	ImageButton btnShareFacebook, btnShareTwitter, btnShareKakao, btnShareKakaoStory, btnExit;
@@ -63,6 +70,7 @@ public class Realize extends BannerActivity implements OnClickListener {
 	//flag
 	private boolean isAlreadyShared = false;
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -121,16 +129,14 @@ public class Realize extends BannerActivity implements OnClickListener {
 		
 		try {
 			Display display=((WindowManager)this.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-		    @SuppressWarnings("deprecation")
 			int deviceWidth=(int)display.getWidth();
-		    @SuppressWarnings("deprecation")
 			int deviceHeight=(int)display.getHeight();
-			
-			
-			imageView.setImageDrawable(Drawable.createFromPath(file
-					.getAbsolutePath()));
+			this.toastWidth = deviceHeight;
+			this.toastHeight = deviceHeight;//deviceHeight*deviceHeight/deviceWidth;
+			//너비 : 높이 = 높이 = x
+			imageView.setImageDrawable(Drawable.createFromPath(file.getAbsolutePath()));
 			imageView.getLayoutParams().width = deviceWidth;
-			imageView.getLayoutParams().height = deviceWidth*deviceWidth / deviceHeight;
+			imageView.getLayoutParams().height = deviceHeight*deviceHeight/ deviceWidth;
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -251,6 +257,8 @@ public class Realize extends BannerActivity implements OnClickListener {
 				//preference로 저장
 				//loadSharedPicturesList();
 				//Network on MainThread Exception
+				isAlreadyShared = true;
+				common.saveIsShared();
 				getSharedListFromSameLanguage();
 			}
 		}
@@ -383,10 +391,34 @@ public class Realize extends BannerActivity implements OnClickListener {
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
 			progressDialog.cancel();
-			if ( result == null || result.length() == 0 || result.equalsIgnoreCase("") || result == "fail" || result == "false") {
+			if ( result == null || result.length() == 0 || result.equalsIgnoreCase("") == true) {
 				common.centerToast(Realize.this, "UnExpected Error Occur, Please Try Again");
+			} else if (result.contains("ER_SUBQUERY_NO_")) {
+				final String id = common.getID();
+				final float weight = common.getWeight();
+				final boolean isMan = common.getSexInfoIsMan();
+				
+				//파일주소
+				File file = getFileStreamPath(myPictureName);
+				final String path = file.getAbsolutePath();
+				
+				//언어
+				Locale systemLocale = getResources().getConfiguration().locale;
+				final String language = systemLocale.getLanguage();
+
+				if (id!=null && weight !=0 && path !=null && language != null) {
+					final Common tempCommon = Realize.this.common;
+					new Thread() {
+						public void run() {
+							tempCommon.uploadDataToServer(id, weight, isMan, path, language);
+							tempCommon.saveIsShared();
+						}
+					}.start();
+				} else {
+					//common.resetPreference();
+					//file.delete();
+				}
 			}  else {
-				isAlreadyShared = true;
 				updateView( common.getMapFromJsonString(result) );
 				layoutList.setVisibility(View.VISIBLE);
 			}
@@ -433,7 +465,7 @@ public class Realize extends BannerActivity implements OnClickListener {
 				LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 				view = vi.inflate(R.layout.list_tab_cell, null);
 			}
-
+			view.setTag(position);
 			listData = items.get(position);
 			if (listData != null) {
 		
@@ -443,6 +475,8 @@ public class Realize extends BannerActivity implements OnClickListener {
 		
 				row = (LinearLayout) view.findViewById(R.id.listtab_row);
 				image = (ImageView) view.findViewById(R.id.listtab_custom_image);
+				//image.buildDrawingCache(true);
+				//image.setDrawingCacheEnabled(true);
 				txtIsMan = (TextView) view.findViewById(R.id.listtab_custom_isMan);
 				txtWeight = (TextView) view.findViewById(R.id.listtab_custom_weight);
 				txtLanguage = (TextView) view.findViewById(R.id.listtab_custom_language);
@@ -487,6 +521,49 @@ public class Realize extends BannerActivity implements OnClickListener {
 		
 		@Override
 		public void onClick(View v) {
+			
+			ImageView imageView = null;
+			
+			LinearLayout layout = (LinearLayout) v;
+			int childcount = layout.getChildCount();
+			for (int i=0; i < childcount; i++){
+			      View view = layout.getChildAt(i);
+			      if (view instanceof ImageView) {
+			    	    imageView = (ImageView) view;
+			    	}
+			}
+			
+			if (Realize.this.toast == null) {
+				toast = new Toast(Realize.this);
+				LayoutInflater inflater;
+		        View inflaterView;
+		        inflater = (LayoutInflater)Realize.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		        inflaterView = inflater.inflate(R.layout.custom_toast, null);
+		        Realize.this.toastImageView = (ImageView) inflaterView.findViewById(R.id.custom_image);
+		        toast.setView(inflaterView);
+		        toast.setDuration(Toast.LENGTH_LONG);
+			}
+			
+			if (imageView != null) {
+				Bitmap bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
+				Bitmap copiedBitmap = bitmap.copy(bitmap.getConfig(), true);
+				//ImageView targetImageView = (ImageView) toast.getView();
+				Log.e("Realize", ""+bitmap);
+				copiedBitmap = Bitmap.createScaledBitmap(copiedBitmap, toastWidth, toastHeight, true);
+				if (bitmap != null)
+					Log.e("Realize", bitmap.toString());
+				
+				Realize.this.toastImageView.setImageBitmap(copiedBitmap);
+				
+				//Realize.this.toastImageView.setImageBitmap(bitmap);
+				//targetImageView.getLayoutParams().width = deviceWidth;
+				//targetImageView.getLayoutParams().height = deviceHeight;
+				//targetImageView.setImageDrawable(drawable);
+				//Toast toast = new Toast(Realize.this);
+				toast.show();
+			}
+//			int position = (Integer) v.getTag();
+//			ListData listData = items.get(position)
 		}
 	}
 }

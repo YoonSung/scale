@@ -65,6 +65,10 @@ public class Common {
 		NetworkInfo ni = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 		boolean isWifiConn = ni.isConnected();
 		ni = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+		
+		if ( ni == null) {
+			ni = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+		}
 		boolean isMobileConn = ni.isConnected();
 		if (isWifiConn == true || isMobileConn == true)
 			return true;
@@ -316,5 +320,10 @@ public class Common {
 
 	private float readFloatPreference(String key) {
 		return spf.getFloat(key, 0);
+	}
+
+	public void resetPreference() {
+		savePreference("id", null);
+		savePreference("isAlreadyShared", false);
 	}
 }

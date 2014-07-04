@@ -81,6 +81,30 @@
                 android:text="@string/realize_share_mypicture_btn" />
 
             <FrameLayout
+                android:id="@+id/layoutList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#fff"
+                android:orientation="vertical"
+                android:visibility="gone" >
+
+                <ListView
+                    android:id="@+id/listtab_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" >
+                </ListView>
+
+                <Button
+                    android:id="@+id/btnCloseSharedList"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:layout_marginTop="30dp"
+                    android:background="@drawable/selector_shape_red"
+                    android:text="@string/realize_close_sharedlist_btn" />
+            </FrameLayout>
+            
+            <FrameLayout
                 android:id="@+id/layoutShare"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -169,30 +193,6 @@
                             android:src="@drawable/twitter" />
                     </LinearLayout>
                 </LinearLayout>
-            </FrameLayout>
-
-            <FrameLayout
-                android:id="@+id/layoutList"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#fff"
-                android:orientation="vertical"
-                android:visibility="gone" >
-
-                <ListView
-                    android:id="@+id/listtab_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" >
-                </ListView>
-
-                <Button
-                    android:id="@+id/btnCloseSharedList"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|center_horizontal"
-                    android:layout_marginTop="30dp"
-                    android:background="@drawable/selector_shape_red"
-                    android:text="@string/realize_close_sharedlist_btn" />
             </FrameLayout>
         </FrameLayout>
     </LinearLayout>
