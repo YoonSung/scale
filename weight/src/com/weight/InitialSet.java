@@ -50,13 +50,11 @@ public class InitialSet extends BannerActivity implements OnClickListener, OnIte
 	public void onClick(View v) {
 		RadioButton checkButton = (RadioButton)findViewById(rdoGroup.getCheckedRadioButtonId()); 
 		
-		switch(checkButton.getId()){
-			case R.id.rdoMan:
-				isMan = true;
-				break;
-			case R.id.rdoWoman:
-				isMan = false;
-				break;
+		int id = checkButton.getId();
+		if (id == R.id.rdoMan) {
+			isMan = true;
+		} else if (id == R.id.rdoWoman) {
+			isMan = false;
 		}
 
 		common.saveWeight(height);

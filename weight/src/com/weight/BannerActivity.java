@@ -1,13 +1,13 @@
 package com.weight;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+
 import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.widget.LinearLayout;
-
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
-import com.google.android.gms.ads.AdView;
 
 public class BannerActivity extends Activity {
 	// banner

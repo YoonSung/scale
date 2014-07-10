@@ -8,6 +8,7 @@ import java.util.Hashtable;
 import java.util.Locale;
 import java.util.Map;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -49,7 +50,7 @@ public class Realize extends BannerActivity implements OnClickListener {
 	Common common;
 	File file;
 	ProgressDialog progressDialog;
-	Button btnShare, myPictureShareBtn;
+	Button btnShare, myPictureShareBtn, myPictureReset;
 	int toastWidth;
 	int toastHeight;
 	
@@ -76,9 +77,13 @@ public class Realize extends BannerActivity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.realize);
 
+		//최초에 생성되어야 하기 때문에 먼저 초기화
+		myPictureReset = (Button)findViewById(R.id.myPictureReset);
+		myPictureReset.setOnClickListener(this);
+		
 		common = new Common(this);
 		file = getFileStreamPath(myPictureName);
-		Log.e("Realize", "filePath : " + file);
+		//Log.e("Realize", "filePath : " + file);
 		
 		//Check Already Share Picture
 		//네트워크 요청 후 Path정보를 가져온뒤, File이 존재하는지 체크한다.
@@ -89,21 +94,22 @@ public class Realize extends BannerActivity implements OnClickListener {
     		this.isAlreadyShared = ( isFileExists == true && common.isAlreadyShared() == true);
 	    	//this.isAlreadyShared = true;
 	    	
-    		Log.e("Realize", "isAlreadyShared : " + isAlreadyShared);
-    		Log.e("Realize", "isFileExists : " + isFileExists);
+    		//Log.e("Realize", "isAlreadyShared : " + isAlreadyShared);
+    		//Log.e("Realize", "isFileExists : " + isFileExists);
     		
     		//만약 공유한 내용이 존재하지 않으면
     		if ( isFileExists == false ) {
     			startActivity(new Intent(Realize.this, InitialSet.class));
     			finish();
     		}
+    		
+    		resetButtonExposeBySharedStatus();
 	    }
-		
-		
 	    
 		imageView = (ImageView) findViewById(R.id.myPicture);
 		btnShare = (Button) findViewById(R.id.btnShare);
 		myPictureShareBtn = (Button) findViewById(R.id.myPictureShareBtn);
+		
 		
 		// share layout
 		layoutShare = (FrameLayout) findViewById(R.id.layoutShare);
@@ -117,6 +123,7 @@ public class Realize extends BannerActivity implements OnClickListener {
 		btnShare.setOnClickListener(this);
 		btnExit.setOnClickListener(this);
 		myPictureShareBtn.setOnClickListener(this);
+		
 		btnShareFacebook.setOnClickListener(this);
 		btnShareTwitter.setOnClickListener(this);
 		btnShareKakao.setOnClickListener(this);
@@ -126,6 +133,7 @@ public class Realize extends BannerActivity implements OnClickListener {
 		layoutList = (FrameLayout)findViewById(R.id.layoutList);
 		btnCloseSharedList = (Button)findViewById(R.id.btnCloseSharedList);
 		btnCloseSharedList.setOnClickListener(this);
+		
 		
 		try {
 			Display display=((WindowManager)this.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
@@ -154,28 +162,48 @@ public class Realize extends BannerActivity implements OnClickListener {
 		findViewById(R.id.layoutContent).setLayoutParams(params);
 	}
 
+	private void resetButtonExposeBySharedStatus() {
+		if (isAlreadyShared == true) {
+			myPictureReset.setVisibility(View.VISIBLE);
+		}
+	}
+
 	@Override
 	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.btnShare:
+		int id = v.getId();
+		if (id == R.id.btnShare) {
 			layoutShare.setVisibility(View.VISIBLE);
-			break;
-		case R.id.btnExit:
+		} else if (id == R.id.btnExit) {
 			layoutShare.setVisibility(View.GONE);
-			break;
-		case R.id.myPictureShareBtn:
+		} else if (id == R.id.myPictureShareBtn) {
 			if ( isAlreadyShared == false ) {
 				myPictureShare();
 			} else {
 				getSharedListFromSameLanguage();
 			}
-			break;
-		case R.id.btnCloseSharedList:
+		} else if (id == R.id.myPictureReset) {
+			new AlertDialog.Builder(this)
+			.setTitle(getResources().getString(R.string.realize_mypicture_reset_btn))
+			.setMessage(getResources().getString(R.string.realize_mypicture_reset_text))
+			.setPositiveButton(getResources().getString(R.string.realize_alert_progress),
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						common.resetPreference();
+						startActivity(new Intent(Realize.this, InitialSet.class));
+						finish();
+					}
+				})
+			.setNegativeButton(getResources().getString(R.string.realize_share_mypicture_alert_cancel),
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.cancel();
+					}
+			}).create().show();
+		} else if (id == R.id.btnCloseSharedList) {
 			layoutList.setVisibility(View.GONE);
-			break;
-		default:
+			resetButtonExposeBySharedStatus();
+		} else {
 			shareApplication(v.getId());
-			break;
 		}
 	}
 
@@ -304,22 +332,12 @@ public class Realize extends BannerActivity implements OnClickListener {
 				e.printStackTrace();
 			}
 		} else {
-			switch (resourceID) {
-			case R.id.btnShareTwitter:
+			if (resourceID == R.id.btnShareTwitter) {
 				recommendURL = "https://twitter.com/intent/tweet?source=webclient&text="
 											+message
 											+"&url="+referenceURLString;
-					
-//				recommendURL = "http://twitter.com/home?status=" + edtShareComment.getText().toString()
-//						+ "Download : \"" + referenceURLString;
-				break;
-			case R.id.btnShareFacebook:
+			} else if (resourceID == R.id.btnShareFacebook) {
 				recommendURL = "https://www.facebook.com/sharer/sharer.php?u="+referenceURLString;
-//				recommendURL = "http://www.facebook.com/sharer/sharer.php?s=100&p[url]="
-//						+ referenceURLString
-//						+ "&p[images][0]=http://dooit.co.kr/include/img/dooit/btn_main01.gif&p[title]="
-//						+ message;
-				break;
 			}
 			startActivity(new Intent(Intent.ACTION_VIEW,
 					Uri.parse(recommendURL)));
@@ -376,7 +394,7 @@ public class Realize extends BannerActivity implements OnClickListener {
 		@Override
 		protected String doInBackground(Void... params) {
 			String jsonString = common.loadSharedPicturesList( common.getID() );
-			Log.e("Realize.java", "JSONSTRING : "+jsonString);
+			//Log.e("Realize.java", "JSONSTRING : "+jsonString);
 			return jsonString;
 		}
 		
@@ -459,6 +477,7 @@ public class Realize extends BannerActivity implements OnClickListener {
 			this.items = items;
 		}
 
+		@SuppressLint("InflateParams")
 		@Override
 		public View getView(int position, View view, ViewGroup parent) {
 			if (view == null) {
@@ -519,6 +538,7 @@ public class Realize extends BannerActivity implements OnClickListener {
 			  }
 		}
 		
+		@SuppressLint("InflateParams")
 		@Override
 		public void onClick(View v) {
 			
@@ -548,10 +568,10 @@ public class Realize extends BannerActivity implements OnClickListener {
 				Bitmap bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
 				Bitmap copiedBitmap = bitmap.copy(bitmap.getConfig(), true);
 				//ImageView targetImageView = (ImageView) toast.getView();
-				Log.e("Realize", ""+bitmap);
+				//Log.e("Realize", ""+bitmap);
 				copiedBitmap = Bitmap.createScaledBitmap(copiedBitmap, toastWidth, toastHeight, true);
-				if (bitmap != null)
-					Log.e("Realize", bitmap.toString());
+				//if (bitmap != null)
+				//	Log.e("Realize", bitmap.toString());
 				
 				Realize.this.toastImageView.setImageBitmap(copiedBitmap);
 				

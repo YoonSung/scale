@@ -4,7 +4,6 @@ import java.util.List;
 
 import android.content.Context;
 import android.hardware.Camera;
-import android.hardware.Camera.Size;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
@@ -80,11 +79,11 @@ public class Preview extends SurfaceView implements Callback, Camera.PictureCall
         List<Camera.Size> pictureSizes = mCamera.getParameters().getSupportedPictureSizes();
                  
         checkSupportedPictureSizeAtPreviewSize(pictureSizes);
-         
+        /* 
         for (Size size : pictureSizes) {
 			Log.e("Preview","size Width : "+size.width);
 			Log.e("Preview","size Height : "+size.height);
-		}
+		}*/
         
         return pictureSizes;
     }
@@ -131,7 +130,7 @@ public class Preview extends SurfaceView implements Callback, Camera.PictureCall
             mCamera.setPreviewDisplay(holder);
         } catch (Exception e) {
             // TODO: handle exception
-            Log.d("ErrorLog", "Preview : surfaceCreated");
+            Log.e("ErrorLog", "Preview : surfaceCreated");
             mCamera.release();
             mCamera = null;
         }

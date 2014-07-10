@@ -33,6 +33,10 @@
     <string name="realize_share_mypicture_alert_confirm">Share</string>
     <string name="realize_share_mypicture_alert_cancel">Cancel</string>
     
+    <string name="realize_mypicture_reset_btn">Initialization</string>
+	<string name="realize_mypicture_reset_text">Measuring the weight again.\nTry to measure the weight of a friend!</string>
+	<string name="realize_alert_progress">Progress</string>
+    
     <string name="realize_shared_list_sex">Gender : </string>
     <string name="realize_shared_list_weight">weight : </string>
     <string name="realize_shared_list_alert_language">Language : </string>

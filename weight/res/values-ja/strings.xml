@@ -33,6 +33,10 @@
     <string name="realize_share_mypicture_alert_confirm">シェア</string>
     <string name="realize_share_mypicture_alert_cancel">キャンセル</string>
     
+    <string name="realize_mypicture_reset_btn">初期化</string>
+	<string name="realize_mypicture_reset_text">体重測定をし直します\n友人の体重測定にお試しください!</string>
+	<string name="realize_alert_progress">進行</string>
+    
     <string name="realize_shared_list_sex">性別 : </string>
     <string name="realize_shared_list_weight">体重 : </string>
     <string name="realize_shared_list_alert_language">言語 : </string>

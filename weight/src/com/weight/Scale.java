@@ -2,7 +2,6 @@ package com.weight;
 
 import java.util.Random;
 
-import com.weight.R;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.hardware.Sensor;
@@ -11,7 +10,6 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -50,7 +48,7 @@ public class Scale extends BannerActivity implements OnClickListener,
 				updateLastDetailMove();
 				break;
 			case 4:
-				Log.e("Scale", "averageWeight : " + average_weight);
+				//Log.e("Scale", "averageWeight : " + average_weight);
 
 				StringBuilder sb = new StringBuilder();
 				sb.append(resultDecimal);
@@ -185,9 +183,8 @@ public class Scale extends BannerActivity implements OnClickListener,
 		} else {
 			imgUnit.setImageResource(images[(detailMovementUnitNum) % 10]);
 			imgFloat.setImageResource(images[getRandomIndex()]);
-			Log.e("Scale", "detailMovementNum : " + detailMovementNum);
-			Log.e("Scale", "resource num : "
-					+ (detailMovementUnitNum - detailMovementNum) % 10);
+			//Log.e("Scale", "detailMovementNum : " + detailMovementNum);
+			//Log.e("Scale", "resource num : "+ (detailMovementUnitNum - detailMovementNum) % 10);
 
 			detailMovementNum--;
 			detailMovementUnitNum--;
@@ -280,7 +277,7 @@ public class Scale extends BannerActivity implements OnClickListener,
 			this.accSensitivity = 0;
 		} else {
 			this.accSensitivity = accSensitivity;
-			Log.e("Scale", "accSensitivity : " + accSensitivity);
+			//Log.e("Scale", "accSensitivity : " + accSensitivity);
 		}
 	}
 }

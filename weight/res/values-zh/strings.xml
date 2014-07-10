@@ -33,6 +33,10 @@
     <string name="realize_share_mypicture_alert_confirm">シェア</string>
     <string name="realize_share_mypicture_alert_cancel">取消</string>
     
+    <string name="realize_mypicture_reset_btn">初始化</string>
+	<string name="realize_mypicture_reset_text">再次測量體重\n嘗試來衡量朋友的重量!</string>
+	<string name="realize_alert_progress">進展</string>
+    
     <string name="realize_shared_list_sex">性别 : </string>
     <string name="realize_shared_list_weight">重量 : </string>
     <string name="realize_shared_list_alert_language">语 : </string>

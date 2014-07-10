@@ -34,6 +34,10 @@
     <string name="realize_share_mypicture_alert_confirm">공유</string>
     <string name="realize_share_mypicture_alert_cancel">취소</string>
     
+    <string name="realize_mypicture_reset_btn">초기화</string>
+    <string name="realize_mypicture_reset_text">몸무게 측정을 다시합니다.\n친구의 몸무게측정에 사용해보세요!</string>
+    <string name="realize_alert_progress">진행</string>
+    
     <string name="realize_shared_list_sex">성별 : </string>
     <string name="realize_shared_list_weight">몸무게 : </string>
     <string name="realize_shared_list_alert_language">언어권 : </string>

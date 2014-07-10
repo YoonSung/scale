@@ -71,14 +71,30 @@
                 android:background="#000"
                 android:textColor="#fff" />
 
-            <Button
-                android:id="@+id/myPictureShareBtn"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center_horizontal"
-                android:layout_marginTop="30dp"
-                android:background="@drawable/selector_shape_red"
-                android:text="@string/realize_share_mypicture_btn" />
+                android:gravity="center"
+                    android:layout_marginTop="30dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/myPictureShareBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/selector_shape_red"
+                    android:text="@string/realize_share_mypicture_btn" />
+
+                <Button
+                    android:id="@+id/myPictureReset"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                   	android:visibility="gone"
+                    android:layout_marginLeft="40dp"
+                    android:background="@drawable/selector_shape_red"
+                    android:text="@string/realize_mypicture_reset_btn" />
+            </LinearLayout>
 
             <FrameLayout
                 android:id="@+id/layoutList"
@@ -103,7 +119,7 @@
                     android:background="@drawable/selector_shape_red"
                     android:text="@string/realize_close_sharedlist_btn" />
             </FrameLayout>
-            
+
             <FrameLayout
                 android:id="@+id/layoutShare"
                 android:layout_width="match_parent"

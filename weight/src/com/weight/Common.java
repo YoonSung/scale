@@ -2,6 +2,7 @@ package com.weight;
 
 import java.io.DataOutputStream;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
@@ -72,7 +73,7 @@ public class Common {
 		boolean isMobileConn = ni.isConnected();
 		if (isWifiConn == true || isMobileConn == true)
 			return true;
-		centerToast(context, "네트워크 연결에 실패하였습니다.\n인터넷 연결상태를 확인해 주세요.");
+		centerToast(context, "Network connect Fail.\nTry again");
 		return false;
 	}
 
@@ -116,7 +117,7 @@ public class Common {
 
 			mFileInputStream = new FileInputStream(path);
 			connectUrl = new URL(tempURL);
-			Log.d("Common", "mFileInputStream  is " + mFileInputStream);
+			//Log.d("Common", "mFileInputStream  is " + mFileInputStream);
 
 			// open connection
 			conn = (HttpURLConnection) connectUrl.openConnection();
@@ -155,7 +156,7 @@ public class Common {
 			byte[] buffer = new byte[bufferSize];
 			int bytesRead = mFileInputStream.read(buffer, 0, bufferSize);
 
-			Log.d("Common", "image byte is " + bytesRead);
+			//Log.d("Common", "image byte is " + bytesRead);
 
 			// read image
 			while (bytesRead > 0) {
@@ -175,7 +176,7 @@ public class Common {
 			dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
 			
 			// close streams
-			Log.e("Test", "File is written");
+			//Log.e("Test", "File is written");
 			mFileInputStream.close();
 			dos.flush(); // finish upload...
 
@@ -192,12 +193,18 @@ public class Common {
 				requestResult = true;
 			}
 			
-			Log.e("Common", "result = " + s);
-			dos.close();
+			//Log.e("Common", "result = " + s);
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			Log.d("Common", "exception " + e.getMessage());
+			//Log.d("Common", "exception " + e.getMessage());
+		} finally {
+			try {
+				if (dos != null)
+					dos.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 
 		return requestResult;
@@ -239,11 +246,11 @@ public class Common {
 			}
 			requestResult = sb.toString();
 			
-			Log.e("Common", "load Shared Picture List = " + requestResult);
+			//Log.e("Common", "load Shared Picture List = " + requestResult);
 			dos.close();
 
 		} catch (Exception e) {
-			Log.d("Common", "exception " + e.getMessage());
+			Log.e("Common", "exception " + e.getMessage());
 		}
 
 		return requestResult;
